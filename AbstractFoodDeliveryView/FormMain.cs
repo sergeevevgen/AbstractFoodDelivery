@@ -1,6 +1,5 @@
 ﻿using AbstractFoodDeliveryContracts.BindingModels;
 using AbstractFoodDeliveryContracts.BusinessLogicsContracts;
-using AbstractFoodDeliveryContracts.ViewModels;
 using Unity;
 
 namespace AbstractFoodDeliveryView
