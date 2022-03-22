@@ -128,14 +128,14 @@
             // изделияToolStripMenuItem
             // 
             this.изделияToolStripMenuItem.Name = "изделияToolStripMenuItem";
-            this.изделияToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.изделияToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.изделияToolStripMenuItem.Text = "Блюда";
             this.изделияToolStripMenuItem.Click += new System.EventHandler(this.блюдаToolStripMenuItem_Click);
             // 
             // компонентыToolStripMenuItem
             // 
             this.компонентыToolStripMenuItem.Name = "компонентыToolStripMenuItem";
-            this.компонентыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.компонентыToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.компонентыToolStripMenuItem.Text = "Ингредиенты";
             this.компонентыToolStripMenuItem.Click += new System.EventHandler(this.ингредиентыToolStripMenuItem_Click);
             // 
@@ -154,18 +154,21 @@
             this.списокБлюдToolStripMenuItem.Name = "списокБлюдToolStripMenuItem";
             this.списокБлюдToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.списокБлюдToolStripMenuItem.Text = "Список блюд";
+            this.списокБлюдToolStripMenuItem.Click += new System.EventHandler(this.списокБлюдToolStripMenuItem_Click);
             // 
             // блюдаСИнгредиентамиToolStripMenuItem
             // 
             this.блюдаСИнгредиентамиToolStripMenuItem.Name = "блюдаСИнгредиентамиToolStripMenuItem";
             this.блюдаСИнгредиентамиToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.блюдаСИнгредиентамиToolStripMenuItem.Text = "Блюда с ингредиентами";
+            this.блюдаСИнгредиентамиToolStripMenuItem.Click += new System.EventHandler(this.блюдаСИнгредиентамиToolStripMenuItem_Click);
             // 
             // списокЗаказовToolStripMenuItem
             // 
             this.списокЗаказовToolStripMenuItem.Name = "списокЗаказовToolStripMenuItem";
             this.списокЗаказовToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.списокЗаказовToolStripMenuItem.Text = "Список заказов";
+            this.списокЗаказовToolStripMenuItem.Click += new System.EventHandler(this.списокЗаказовToolStripMenuItem_Click);
             // 
             // FormMain
             // 
