@@ -26,7 +26,7 @@ namespace AbstractFoodDeliveryBusinessLogic.OfficePackage
             {
                 Texts = new List<string> 
                 { 
-                    "Дата заказа", "Изделие", 
+                    "Дата заказа", "Блюдо", 
                     "Количество", "Сумма", "Статус"
                 },
                 Style = "NormalTitle",
