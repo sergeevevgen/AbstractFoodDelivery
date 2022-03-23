@@ -35,7 +35,6 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
         /// <returns></returns>
         public List<ReportDishIngredientViewModel> GetDishIngredient()
         {
-            var ingredients = _ingredientStorage.GetFullList();
             var dishes = _dishStorage.GetFullList();
             var list = new List<ReportDishIngredientViewModel>();
 
@@ -47,13 +46,13 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                     Ingredients = new List<Tuple<string, int>>(),
                     TotalCount = 0
                 };
-                foreach (var ingredient in ingredients)
+                foreach (var ingredient in dish.DishIngredients)
                 {
-                    if (dish.DishIngredients.ContainsKey(ingredient.Id))
+                    if (dish.DishIngredients.ContainsKey(ingredient.Key))
                     {
-                        record.Ingredients.Add(new Tuple<string, int>(ingredient.IngredientName,
-                        dish.DishIngredients[ingredient.Id].Item2));
-                        record.TotalCount += dish.DishIngredients[ingredient.Id].Item2;
+                        record.Ingredients.Add(new Tuple<string, int>(ingredient.Value.Item1,
+                        ingredient.Value.Item2));
+                        record.TotalCount += ingredient.Value.Item2;
                     }
                 }
                 list.Add(record);

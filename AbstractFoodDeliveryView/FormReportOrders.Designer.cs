@@ -1,4 +1,4 @@
-﻿namespace FlowerShopView
+﻿namespace AbstractFoodDeliveryView
 {
     partial class FormReportOrders
     {
