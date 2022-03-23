@@ -29,10 +29,15 @@ namespace AbstractFoodDeliveryBusinessLogic.OfficePackage
                 {
                     Texts = new List<(string, WordTextProperties)> 
                     {
-                        (dish.DishName, new WordTextProperties 
+                        (dish.DishName + ": ", new WordTextProperties 
                         { 
                             Size = "24",
-                        }) 
+                            Bold = true
+                        }),
+                        (dish.Price.ToString(), new WordTextProperties
+                        {
+                            Size = "24",
+                        })
                     },
                     TextProperties = new WordTextProperties
                     {

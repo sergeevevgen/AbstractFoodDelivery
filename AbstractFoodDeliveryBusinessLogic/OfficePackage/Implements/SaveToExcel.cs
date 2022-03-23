@@ -266,6 +266,7 @@ namespace AbstractFoodDeliveryBusinessLogic.OfficePackage.Implements
             sheets.Append(sheet);
             _worksheet = worksheetPart.Worksheet;
         }
+
         protected override void InsertCellInWorksheet(ExcelCellParameters excelParams)
         {
             var sheetData = _worksheet.GetFirstChild<SheetData>();
