@@ -2,7 +2,7 @@
 using AbstractFoodDeliveryContracts.BusinessLogicsContracts;
 using Microsoft.Reporting.WinForms;
 
-namespace FlowerShopView
+namespace AbstractFoodDeliveryView
 {
     public partial class FormReportOrders : Form
     {
