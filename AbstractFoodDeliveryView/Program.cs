@@ -1,7 +1,8 @@
 using AbstractFoodDeliveryBusinessLogic.BusinessLogics;
 using AbstractFoodDeliveryContracts.BusinessLogicsContracts;
 using AbstractFoodDeliveryContracts.StoragesContracts;
-using AbstractFoodDeliveryListImplement.Implements;
+using AbstractFoodDeliveryFileImplement.Implements;
+using AbstractFoodDeliveryFileImplement;
 using Unity;
 using Unity.Lifetime;
 
@@ -31,6 +32,7 @@ namespace AbstractFoodDeliveryView
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(Container.Resolve<FormMain>());
+            FileDataListSingleton.SaveData();
         }
 
         private static IUnityContainer BuildUnityContainer()
