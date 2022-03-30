@@ -62,6 +62,8 @@ namespace AbstractFoodDeliveryView
             {
                 wareHouseIngredients = new Dictionary<int, (string, int)>();
                 warehouseDate = DateTime.Now;
+                textBoxDateCreate.Visible = false;
+                labelDateCreate.Visible = false;
             }
         }
 

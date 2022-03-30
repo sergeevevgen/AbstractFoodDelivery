@@ -97,39 +97,6 @@ namespace AbstractFoodDeliveryView
             }
         }
 
-        private void buttonUpd_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(textBoxCount.Text))
-            {
-                MessageBox.Show("Заполните поле Количество", "Ошибка",
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (comboBoxIngredient.SelectedValue == null)
-            {
-                MessageBox.Show("Выберите ингредиент", "Ошибка", MessageBoxButtons.OK,
-                MessageBoxIcon.Error);
-                return;
-            }
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                try
-                {
-                    _logic.AddIngredient(new WareHouseBindingModel
-                    {
-                        Id = id
-                    }, Id, Count);
-                    LoadData();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                }
-            }
-        }
-
         private void buttonDel_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxCount.Text))
