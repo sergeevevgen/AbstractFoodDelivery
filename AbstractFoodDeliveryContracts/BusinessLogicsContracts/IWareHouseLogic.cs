@@ -10,5 +10,9 @@ namespace AbstractFoodDeliveryContracts.BusinessLogicsContracts
         void CreateOrUpdate(WareHouseBindingModel model);
 
         void Delete(WareHouseBindingModel model);
+
+        public void AddIngredient(WareHouseBindingModel model, int ingredientId, int count);
+
+        public void DelIngredient(WareHouseBindingModel model, int ingredientId, int count);
     }
 }

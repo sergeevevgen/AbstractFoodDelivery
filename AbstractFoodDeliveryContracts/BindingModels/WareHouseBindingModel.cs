@@ -7,6 +7,6 @@ namespace AbstractFoodDeliveryContracts.BindingModels
         public string WareHouseName { get; set; }
         public string StorekeeperFIO { get; set; }
         public DateTime DateCreate { get; set; }
-        public Dictionary<int, int> WareHouseIngredients { get; set; }
+        public Dictionary<int, (string, int)> WareHouseIngredients { get; set; }
     }
 }

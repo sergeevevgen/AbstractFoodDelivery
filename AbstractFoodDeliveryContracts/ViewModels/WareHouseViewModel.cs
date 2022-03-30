@@ -14,6 +14,6 @@ namespace AbstractFoodDeliveryContracts.ViewModels
         public string StorekeeperFIO { get; set; }
         [DisplayName("Дата создания")]
         public DateTime DateCreate { get; set; }
-        public Dictionary<int, int> WareHouseIngredients { get; set; }
+        public Dictionary<int, (string, int)> WareHouseIngredients { get; set; }
     }
 }

@@ -119,17 +119,17 @@ namespace AbstractFoodDeliveryListImplement.Implements
                 }
             }
             // обновляем существующие и добавляем новые
-            foreach (var component in model.DishIngredients)
+            foreach (var ingredient in model.DishIngredients)
             {
-                if (dish.DishIngredients.ContainsKey(component.Key))
+                if (dish.DishIngredients.ContainsKey(ingredient.Key))
                 {
-                    dish.DishIngredients[component.Key] =
-                    model.DishIngredients[component.Key].Item2;
+                    dish.DishIngredients[ingredient.Key] =
+                    model.DishIngredients[ingredient.Key].Item2;
                 }
                 else
                 {
-                    dish.DishIngredients.Add(component.Key,
-                    model.DishIngredients[component.Key].Item2);
+                    dish.DishIngredients.Add(ingredient.Key,
+                    model.DishIngredients[ingredient.Key].Item2);
                 }
             }
             return dish;

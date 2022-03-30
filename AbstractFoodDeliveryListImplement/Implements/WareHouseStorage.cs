@@ -13,6 +13,7 @@ namespace AbstractFoodDeliveryListImplement.Implements
         {
             source = DataListSingleton.GetInstance();
         }
+
         public void Delete(WareHouseBindingModel model)
         {
             for(int i = 0; i < source.WareHouses.Count; ++i)
@@ -84,7 +85,7 @@ namespace AbstractFoodDeliveryListImplement.Implements
                     tempWareHouse.Id = warehouse.Id + 1;
                 }
             }
-            source.Dishes.Add(CreateModel(model, tempWareHouse));
+            source.WareHouses.Add(CreateModel(model, tempWareHouse));
         }
 
         public void Update(WareHouseBindingModel model)
@@ -127,39 +128,40 @@ namespace AbstractFoodDeliveryListImplement.Implements
                 if (warehouse.WareHouseIngredients.ContainsKey(ingredient.Key))
                 {
                     warehouse.WareHouseIngredients[ingredient.Key] =
-                    model.WareHouseIngredients[ingredient.Key];
+                    model.WareHouseIngredients[ingredient.Key].Item2;
                 }
                 else
                 {
                     warehouse.WareHouseIngredients.Add(ingredient.Key,
-                    model.WareHouseIngredients[ingredient.Key]);
+                    model.WareHouseIngredients[ingredient.Key].Item2);
                 }
             }
             return warehouse;
         }
 
-        private static WareHouseViewModel CreateModel(WareHouseBindingModel model)
+        private WareHouseViewModel CreateModel(Warehouse warehouse)
         {
             var warehouseIngredients = new Dictionary<int, (string, int)>();
-            foreach (var ingredient in dish.DishIngredients)
+            foreach (var wi in warehouse.WareHouseIngredients)
             {
                 string ingredientName = string.Empty;
                 foreach (var ingredient in source.Ingredients)
                 {
-                    if (pc.Key == ingredient.Id)
+                    if (wi.Key == ingredient.Id)
                     {
                         ingredientName = ingredient.IngredientName;
                         break;
                     }
                 }
-                dishIngredients.Add(pc.Key, (ingredientName, pc.Value));
+                warehouseIngredients.Add(wi.Key, (ingredientName, wi.Value));
             }
-            return new DishViewModel
+            return new WareHouseViewModel
             {
-                Id = h.Id,
-                DishName = dish.DishName,
-                Price = dish.Price,
-                DishIngredients = dishIngredients
+                Id = warehouse.Id,
+                WareHouseName = warehouse.WareHouseName,
+                StorekeeperFIO = warehouse.StorekeeperFIO,
+                DateCreate = warehouse.DateCreate,
+                WareHouseIngredients = warehouseIngredients
             };
         }
     }

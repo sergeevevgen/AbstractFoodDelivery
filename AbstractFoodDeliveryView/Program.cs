@@ -48,6 +48,10 @@ namespace AbstractFoodDeliveryView
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDishLogic, DishLogic>(new
             HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IWareHouseLogic, WareHouseLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IWareHouseStorage, WareHouseStorage>(new
+            HierarchicalLifetimeManager());
             return currentContainer;
         }
     }
