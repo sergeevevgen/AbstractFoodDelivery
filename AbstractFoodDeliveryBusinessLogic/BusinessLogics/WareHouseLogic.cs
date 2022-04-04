@@ -70,7 +70,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
 
         public void AddIngredient(WareHouseBindingModel model, int ingredientId, int count)
         {
-            var warehouse = _wareHouseStorage.GetElement(new WareHouseBindingModel { Id = ingredientId });
+            var warehouse = _wareHouseStorage.GetElement(new WareHouseBindingModel { Id = model.Id });
             if (warehouse == null)
             {
                 throw new Exception("Склад не найден");
@@ -90,51 +90,6 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
             else
             {
                 warehouse.WareHouseIngredients.Add(ingredient.Id, (ingredient.IngredientName, count));
-            }
-
-            _wareHouseStorage.Update(new WareHouseBindingModel
-            {
-                Id = warehouse.Id,
-                WareHouseName = warehouse.WareHouseName,
-                StorekeeperFIO = warehouse.StorekeeperFIO,
-                DateCreate = warehouse.DateCreate,
-                WareHouseIngredients = warehouse.WareHouseIngredients
-            });
-        }
-
-        public void DelIngredient(WareHouseBindingModel model, int ingredientId, int count)
-        {
-            var warehouse = _wareHouseStorage.GetElement(new WareHouseBindingModel { Id = ingredientId });
-            if (warehouse == null)
-            {
-                throw new Exception("Склад не найден");
-            }
-
-            var ingredient = _ingredientStorage.GetElement(new IngredientBindingModel { Id = ingredientId });
-            if (ingredient == null)
-            {
-                throw new Exception("Ингредиент не найден");
-            }
-
-            if (warehouse.WareHouseIngredients.ContainsKey(ingredient.Id))
-            {
-                int countNow = warehouse.WareHouseIngredients[ingredient.Id].Item2;
-                if(count > countNow)
-                {
-                    throw new Exception("На складе нет такого количества ингредиентов");
-                }
-                if (count - countNow == 0)
-                {
-                    warehouse.WareHouseIngredients.Remove(ingredientId);
-                }
-                else
-                {
-                    warehouse.WareHouseIngredients[ingredient.Id] = (ingredient.IngredientName, countNow - count);
-                }
-            }
-            else
-            {
-                throw new Exception("Такого ингредиента на складе не существует");
             }
 
             _wareHouseStorage.Update(new WareHouseBindingModel
