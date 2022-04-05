@@ -3,6 +3,11 @@ using AbstractFoodDeliveryContracts.StoragesContracts;
 using AbstractFoodDeliveryContracts.ViewModels;
 using AbstractFoodDeliveryDatabaseImplement.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace AbstractFoodDeliveryDatabaseImplement.Implements
 {
@@ -33,6 +38,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
             using var context = new AbstractFoodDeliveryDatabase();
             var order = context.Orders
             .Include(rec => rec.Dish)
+            .Include(rec => rec.Client)
             .FirstOrDefault(rec => rec.Id == model.Id);
             return order != null ? CreateModel(order) : null;
         }
@@ -46,9 +52,11 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
             using var context = new AbstractFoodDeliveryDatabase();
             return context.Orders
                 .Include(rec => rec.Dish)
+                .Include(rec => rec.Client)
                 .Where(rec => rec.Id.Equals(model.Id) 
                 || rec.DateCreate >= model.DateFrom 
-                && rec.DateCreate <= model.DateTo)
+                && rec.DateCreate <= model.DateTo 
+                || rec.ClientId == model.ClientId)
                 .ToList()
                 .Select(CreateModel)
                 .ToList();
@@ -59,6 +67,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
             using var context = new AbstractFoodDeliveryDatabase();
             return context.Orders
                 .Include(rec => rec.Dish)
+                .Include(rec => rec.Client)
                 .ToList()
                 .Select(CreateModel)
                 .ToList();
@@ -106,6 +115,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
         private static Order CreateModel(OrderBindingModel model, Order order)
         {
             order.DishId = model.DishId;
+            order.ClientId = model.ClientId.Value;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -119,6 +129,8 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
             return new OrderViewModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
+                ClientFIO = order.Client.ClientFIO,
                 DishId = order.DishId,
                 DishName = order.Dish.DishName,
                 Count = order.Count,

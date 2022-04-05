@@ -13,7 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractFoodDeliveryListImp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractFoodDeliveryFileImplement", "AbstractFoodDeliveryFileImplement\AbstractFoodDeliveryFileImplement.csproj", "{9FDCCB3E-5E0B-4F0A-8B36-E7371D333885}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractFoodDeliveryDatabaseImplement", "AbstractFoodDeliveryDatabaseImplement\AbstractFoodDeliveryDatabaseImplement.csproj", "{6BFFF310-7994-4E4A-93DD-43C852A64456}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractFoodDeliveryDatabaseImplement", "AbstractFoodDeliveryDatabaseImplement\AbstractFoodDeliveryDatabaseImplement.csproj", "{6BFFF310-7994-4E4A-93DD-43C852A64456}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractFoodDeliveryRestApi", "AbstractFoodDeliveryRestApi\AbstractFoodDeliveryRestApi.csproj", "{494BA8D7-829F-436F-8F9F-268E8E76C1E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractFoodDeliveryClientApp", "AbstractFoodDeliveryClientApp\AbstractFoodDeliveryClientApp.csproj", "{7E401121-C92C-475B-8A15-1784DCF0A8F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{6BFFF310-7994-4E4A-93DD-43C852A64456}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BFFF310-7994-4E4A-93DD-43C852A64456}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BFFF310-7994-4E4A-93DD-43C852A64456}.Release|Any CPU.Build.0 = Release|Any CPU
+		{494BA8D7-829F-436F-8F9F-268E8E76C1E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{494BA8D7-829F-436F-8F9F-268E8E76C1E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{494BA8D7-829F-436F-8F9F-268E8E76C1E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{494BA8D7-829F-436F-8F9F-268E8E76C1E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E401121-C92C-475B-8A15-1784DCF0A8F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E401121-C92C-475B-8A15-1784DCF0A8F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E401121-C92C-475B-8A15-1784DCF0A8F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E401121-C92C-475B-8A15-1784DCF0A8F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

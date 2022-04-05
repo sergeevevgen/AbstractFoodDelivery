@@ -48,7 +48,8 @@ namespace AbstractFoodDeliveryFileImplement.Implements
             return source.Orders
                 .Where(rec => rec.Id.Equals(model.Id) 
                 || rec.DateCreate >= model.DateFrom
-                && rec.DateCreate <= model.DateTo)
+                && rec.DateCreate <= model.DateTo ||
+                model.ClientId.HasValue && rec.ClientId == model.ClientId)
                 .Select(CreateModel)
                 .ToList();
         }
