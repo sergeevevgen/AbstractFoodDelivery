@@ -108,7 +108,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
             foreach (var ingredient in ingredients.DishIngredients)
             {
 
-                flag = _warehouseStorage.TakeIngredientsInWork(ingredient.Key, ingredient.Value.Item2);
+                flag = _warehouseStorage.TakeIngredientsInWork(ingredient.Key, ingredient.Value.Item2 * order.Count);
                 
                 if (!flag)
                     throw new Exception("Недостаточно ингредиентов на складе");

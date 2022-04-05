@@ -154,6 +154,8 @@ namespace AbstractFoodDeliveryFileImplement.Implements
 					{
 						warehouse.WareHouseIngredients[ingredientid] = warehouse.WareHouseIngredients[ingredientid] - count;
 						count = 0;
+						if(warehouse.WareHouseIngredients[ingredientid] == 0)
+							warehouse.WareHouseIngredients.Remove(ingredientid);
 					}
 					else
 					{
