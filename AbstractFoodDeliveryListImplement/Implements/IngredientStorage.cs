@@ -33,12 +33,12 @@ namespace AbstractFoodDeliveryListImplement.Implements
                 return null;
             }
 
-            foreach (var component in source.Ingredients)
+            foreach (var ingredient in source.Ingredients)
             {
-                if (component.Id == model.Id || component.IngredientName ==
+                if (ingredient.Id == model.Id || ingredient.IngredientName ==
                     model.IngredientName)
                 {
-                    return CreateModel(component);
+                    return CreateModel(ingredient);
                 }
             }
             return null;
@@ -52,11 +52,11 @@ namespace AbstractFoodDeliveryListImplement.Implements
             }
 
             var result = new List<IngredientViewModel>();
-            foreach (var component in source.Ingredients)
+            foreach (var ingredient in source.Ingredients)
             {
-                if (component.IngredientName.Contains(model.IngredientName))
+                if (ingredient.IngredientName.Contains(model.IngredientName))
                 {
-                    result.Add(CreateModel(component));
+                    result.Add(CreateModel(ingredient));
                 }
             }
             return result;
@@ -65,55 +65,55 @@ namespace AbstractFoodDeliveryListImplement.Implements
         public List<IngredientViewModel> GetFullList()
         {
             var result = new List<IngredientViewModel>();
-            foreach (var component in source.Ingredients)
+            foreach (var ingredient in source.Ingredients)
             {
-                result.Add(CreateModel(component));
+                result.Add(CreateModel(ingredient));
             }
             return result;
         }
 
         public void Insert(IngredientBindingModel model)
         {
-            var tempComponent = new Ingredient { Id = 1 };
-            foreach (var component in source.Ingredients)
+            var tempIngredient = new Ingredient { Id = 1 };
+            foreach (var ingredient in source.Ingredients)
             {
-                if (component.Id >= tempComponent.Id)
+                if (ingredient.Id >= tempIngredient.Id)
                 {
-                    tempComponent.Id = component.Id + 1;
+                    tempIngredient.Id = ingredient.Id + 1;
                 }
             }
-            source.Ingredients.Add(CreateModel(model, tempComponent));
+            source.Ingredients.Add(CreateModel(model, tempIngredient));
         }
 
         public void Update(IngredientBindingModel model)
         {
-            Ingredient tempComponent = null;
-            foreach (var component in source.Ingredients)
+            Ingredient tempIngredient = null;
+            foreach (var ingredient in source.Ingredients)
             {
-                if (component.Id == model.Id)
+                if (ingredient.Id == model.Id)
                 {
-                    tempComponent = component;
+                    tempIngredient = ingredient;
                 }
             }
-            if (tempComponent == null)
+            if (tempIngredient == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            CreateModel(model, tempComponent);
+            CreateModel(model, tempIngredient);
         }
 
-        private static Ingredient CreateModel(IngredientBindingModel model, Ingredient component)
+        private static Ingredient CreateModel(IngredientBindingModel model, Ingredient ingredient)
         {
-            component.IngredientName = model.IngredientName;
-            return component;
+            ingredient.IngredientName = model.IngredientName;
+            return ingredient;
         }
 
-        private static IngredientViewModel CreateModel(Ingredient component)
+        private static IngredientViewModel CreateModel(Ingredient ingredient)
         {
             return new IngredientViewModel
             {
-                Id = component.Id,
-                IngredientName = component.IngredientName
+                Id = ingredient.Id,
+                IngredientName = ingredient.IngredientName
             };
         }
     }

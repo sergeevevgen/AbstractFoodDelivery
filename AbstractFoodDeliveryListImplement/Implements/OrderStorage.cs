@@ -53,7 +53,8 @@ namespace AbstractFoodDeliveryListImplement.Implements
             foreach (var order in source.Orders)
             {
                 if (order.Id == model.Id || order.DateCreate
-                >= model.DateFrom && order.DateCreate <= model.DateTo)
+                >= model.DateFrom && order.DateCreate <= model.DateTo ||
+                order.ClientId == model.ClientId)
                 {
                     result.Add(CreateModel(order));
                 }
@@ -107,6 +108,7 @@ namespace AbstractFoodDeliveryListImplement.Implements
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.DishId = model.DishId;
+            order.ClientId = model.ClientId.Value;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -117,20 +119,32 @@ namespace AbstractFoodDeliveryListImplement.Implements
 
         private OrderViewModel CreateModel(Order order)
         {
-            string DishName = null;
-            for (int j = 0; j < source.Dishes.Count; ++j)
-            {
-                if (source.Dishes[j].Id == order.DishId)
+            string dishName = null;
+            foreach(var dish in source.Dishes)
+            { 
+                if(dish.Id == order.DishId)
                 {
-                    DishName = source.Dishes[j].DishName;
+                    dishName = dish.DishName;
+                    break;
+                }
+            }
+
+            string clientFIO = null;
+            foreach(var client in source.Clients)
+            {
+                if(client.Id == order.ClientId)
+                {
+                    clientFIO = client.ClientFIO;
                     break;
                 }
             }
             return new OrderViewModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
+                ClientFIO = clientFIO,
                 DishId = order.DishId,
-                DishName = DishName,
+                DishName = dishName,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status.ToString(),
