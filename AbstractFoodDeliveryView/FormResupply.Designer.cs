@@ -35,7 +35,6 @@
             this.textBoxCount = new System.Windows.Forms.TextBox();
             this.labelCount = new System.Windows.Forms.Label();
             this.buttonRef = new System.Windows.Forms.Button();
-            this.buttonDel = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -93,23 +92,13 @@
             // 
             // buttonRef
             // 
-            this.buttonRef.Location = new System.Drawing.Point(639, 362);
+            this.buttonRef.Location = new System.Drawing.Point(639, 238);
             this.buttonRef.Name = "buttonRef";
             this.buttonRef.Size = new System.Drawing.Size(75, 23);
             this.buttonRef.TabIndex = 10;
             this.buttonRef.Text = "Обновить";
             this.buttonRef.UseVisualStyleBackColor = true;
             this.buttonRef.Click += new System.EventHandler(this.buttonRef_Click);
-            // 
-            // buttonDel
-            // 
-            this.buttonDel.Location = new System.Drawing.Point(639, 269);
-            this.buttonDel.Name = "buttonDel";
-            this.buttonDel.Size = new System.Drawing.Size(75, 23);
-            this.buttonDel.TabIndex = 9;
-            this.buttonDel.Text = "Удалить";
-            this.buttonDel.UseVisualStyleBackColor = true;
-            this.buttonDel.Click += new System.EventHandler(this.buttonDel_Click);
             // 
             // buttonAdd
             // 
@@ -127,7 +116,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(727, 450);
             this.Controls.Add(this.buttonRef);
-            this.Controls.Add(this.buttonDel);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.labelCount);
             this.Controls.Add(this.textBoxCount);
@@ -153,7 +141,6 @@
         private TextBox textBoxCount;
         private Label labelCount;
         private Button buttonRef;
-        private Button buttonDel;
         private Button buttonAdd;
     }
 }
