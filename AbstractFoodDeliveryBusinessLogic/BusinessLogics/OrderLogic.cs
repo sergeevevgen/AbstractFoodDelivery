@@ -10,13 +10,11 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
     {
         private readonly IOrderStorage _orderStorage;
         private readonly IWareHouseStorage _warehouseStorage;
-        private readonly IDishStorage _dishStorage;
 
-        public OrderLogic(IOrderStorage orderStorage, IWareHouseStorage wareHouseStorage, IDishStorage dishStorage)
+        public OrderLogic(IOrderStorage orderStorage, IWareHouseStorage wareHouseStorage)
         {
             _orderStorage = orderStorage;
             _warehouseStorage = wareHouseStorage;
-            _dishStorage = dishStorage;
         }
 
         public void CreateOrder(CreateOrderBindingModel model)
@@ -101,17 +99,9 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
-
-            var ingredients = _dishStorage.GetElement(new DishBindingModel { Id = order.DishId });
-            bool flag;
-
-            foreach (var ingredient in ingredients.DishIngredients)
+            if(!_warehouseStorage.TakeIngredientsInWork(order.DishId, order.Count))
             {
-
-                flag = _warehouseStorage.TakeIngredientsInWork(ingredient.Key, ingredient.Value.Item2 * order.Count);
-                
-                if (!flag)
-                    throw new Exception("Недостаточно ингредиентов на складе");
+                throw new Exception("Недостаточно ингредиентов на складе");
             }
 
             _orderStorage.Update(new OrderBindingModel

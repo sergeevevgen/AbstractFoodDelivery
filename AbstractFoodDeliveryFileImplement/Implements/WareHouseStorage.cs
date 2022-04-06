@@ -124,49 +124,63 @@ namespace AbstractFoodDeliveryFileImplement.Implements
 			};
 		}
 
-        public bool TakeIngredientsInWork(int ingredientid, int count)
+        public bool TakeIngredientsInWork(int dishid, int count)
         {
-			var warehouses = source.WareHouses
-			.Where(rec => rec.WareHouseIngredients
-			.ContainsKey(ingredientid))
-			.ToList();
-
-			int countNeed = count;
-
-			foreach (var warehouse in warehouses)
+			bool flag = true;
+			var ingredients = source.Dishes.FirstOrDefault(rec => rec.Id == dishid).DishIngredients;
+			
+			foreach(var ingredient in ingredients)
             {
-				if (countNeed > 0)
+				if (flag)
 				{
-					countNeed -= warehouse.WareHouseIngredients[ingredientid];
-				}
-				else
-					break;
-            }
+					var warehouses = source.WareHouses
+					.Where(rec => rec.WareHouseIngredients
+					.ContainsKey(ingredient.Key))
+					.ToList();
 
-			if (countNeed > 0)
-				return false;
+					int countNeed = count * ingredient.Value;
 
-			foreach (var warehouse in warehouses)
-            {
-				if (count > 0)
-				{
-					if (warehouse.WareHouseIngredients[ingredientid] > count)
+					foreach (var warehouse in warehouses)
 					{
-						warehouse.WareHouseIngredients[ingredientid] = warehouse.WareHouseIngredients[ingredientid] - count;
-						count = 0;
-						if(warehouse.WareHouseIngredients[ingredientid] == 0)
-							warehouse.WareHouseIngredients.Remove(ingredientid);
+						if (countNeed > 0)
+						{
+							countNeed -= warehouse.WareHouseIngredients[ingredient.Key];
+						}
+						else
+							break;
 					}
-					else
+
+					if (countNeed > 0)
+                    {
+						flag = false;
+						break;
+                    }
+
+					countNeed = count * ingredient.Value;
+					foreach (var warehouse in warehouses)
 					{
-						count -= warehouse.WareHouseIngredients[ingredientid];
-						warehouse.WareHouseIngredients.Remove(ingredientid);
+						if (countNeed > 0)
+						{
+							if (warehouse.WareHouseIngredients[ingredient.Key] > countNeed)
+							{
+								warehouse.WareHouseIngredients[ingredient.Key] = warehouse.WareHouseIngredients[ingredient.Key] - countNeed;
+								countNeed = 0;
+								if (warehouse.WareHouseIngredients[ingredient.Key] == 0)
+									warehouse.WareHouseIngredients.Remove(ingredient.Key);
+							}
+							else
+							{
+								countNeed -= warehouse.WareHouseIngredients[ingredient.Key];
+								warehouse.WareHouseIngredients.Remove(ingredient.Key);
+							}
+						}
+						else
+							break;
 					}
+					flag = true;
 				}
-				else
-					break;
-            }
-			return true;
+			}
+			return flag;
 		}
     }
 }
