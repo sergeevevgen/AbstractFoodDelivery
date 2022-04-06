@@ -6,9 +6,9 @@
 </div>
 <form method="post">
     <div class="row">
-        <div class="col-4">Изделие:</div>
+        <div class="col-4">Блюдо:</div>
         <div class="col-8">
-            <select id="product" name="product" class="form-control" aspitems="@(new SelectList(@ViewBag.Products,"Id", "ProductName"))"></select>
+            <select id="dish" name="dish" class="form-control" asp-items="@(new SelectList(@ViewBag.Dishes,"Id", "DishName"))"></select>
         </div>
     </div>
     <div class="row">
@@ -36,7 +36,7 @@
 
     function check() {
         var count = $('#count').val();
-        var dish = $('#product').val();
+        var dish = $('#dish').val();
         if (count && dish) {
             $.ajax({
                 method: "POST",

@@ -20,6 +20,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
             _orderStorage.Insert(new OrderBindingModel
             {
                 DishId = model.DishId,
+                ClientId = model.ClientId,
                 Count = model.Count,
                 Sum = model.Sum,
                 Status = OrderStatus.Принят,
@@ -41,6 +42,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 DishId = order.DishId,
                 Count = order.Count,
                 Sum = order.Sum,
@@ -64,6 +66,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 DishId = order.DishId,
                 Count = order.Count,
                 Sum = order.Sum,
@@ -100,6 +103,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 DishId = order.DishId,
                 Count = order.Count,
                 Sum = order.Sum,

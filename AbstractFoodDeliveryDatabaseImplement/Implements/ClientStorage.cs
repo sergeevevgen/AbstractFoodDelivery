@@ -52,8 +52,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
             using var context = new AbstractFoodDeliveryDatabase();
             return context.Clients
             .Include(rec => rec.Orders)
-            .Where(rec => rec.Email.Contains(model.Email))
-            .ToList()
+            .Where(rec => rec.Email.Equals(model.Email))
             .Select(CreateModel)
             .ToList();
         }
@@ -111,7 +110,6 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
             client.Email = model.Email;
             client.ClientFIO = model.ClientFIO;
             client.Password = model.Password;
-
             return client;
         }
 
@@ -122,7 +120,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
                 Id = client.Id,
                 ClientFIO = client.ClientFIO,
                 Email = client.Email,
-                Password = client.Password,
+                Password = client.Password
             };
         }
     }
