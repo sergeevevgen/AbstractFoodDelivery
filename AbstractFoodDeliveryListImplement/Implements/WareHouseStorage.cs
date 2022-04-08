@@ -164,5 +164,10 @@ namespace AbstractFoodDeliveryListImplement.Implements
                 WareHouseIngredients = warehouseIngredients
             };
         }
+
+        public bool TakeIngredientsInWork(int ingredientid, int count)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

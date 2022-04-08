@@ -9,10 +9,12 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
     public class OrderLogic : IOrderLogic
     {
         private readonly IOrderStorage _orderStorage;
+        private readonly IWareHouseStorage _warehouseStorage;
 
-        public OrderLogic(IOrderStorage orderStorage)
+        public OrderLogic(IOrderStorage orderStorage, IWareHouseStorage wareHouseStorage)
         {
             _orderStorage = orderStorage;
+            _warehouseStorage = wareHouseStorage;
         }
 
         public void CreateOrder(CreateOrderBindingModel model)
@@ -97,6 +99,11 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
+            if(!_warehouseStorage.TakeIngredientsInWork(order.DishId, order.Count))
+            {
+                throw new Exception("Недостаточно ингредиентов на складе");
+            }
+
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,

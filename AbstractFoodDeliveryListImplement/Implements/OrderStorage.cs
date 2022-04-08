@@ -116,7 +116,6 @@ namespace AbstractFoodDeliveryListImplement.Implements
 
         private OrderViewModel CreateModel(Order order)
         {
-
             string DishName = null;
             for (int j = 0; j < source.Dishes.Count; ++j)
             {

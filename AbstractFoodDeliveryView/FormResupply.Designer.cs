@@ -92,7 +92,7 @@
             // 
             // buttonRef
             // 
-            this.buttonRef.Location = new System.Drawing.Point(639, 238);
+            this.buttonRef.Location = new System.Drawing.Point(639, 242);
             this.buttonRef.Name = "buttonRef";
             this.buttonRef.Size = new System.Drawing.Size(75, 23);
             this.buttonRef.TabIndex = 10;

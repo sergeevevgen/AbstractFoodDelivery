@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AbstractFoodDeliveryBusinessLogic\AbstractFoodDeliveryBusinessLogic.csproj" />
     <ProjectReference Include="..\AbstractFoodDeliveryContracts\AbstractFoodDeliveryContracts.csproj" />
+    <ProjectReference Include="..\AbstractFoodDeliveryFileImplement\AbstractFoodDeliveryFileImplement.csproj" />
     <ProjectReference Include="..\AbstractFoodDeliveryListImplement\AbstractFoodDeliveryListImplement.csproj" />
   </ItemGroup>
 

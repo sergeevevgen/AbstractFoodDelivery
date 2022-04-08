@@ -42,11 +42,7 @@ namespace AbstractFoodDeliveryView
                 try
                 {
                     int id = Convert.ToInt32(comboBoxDish.SelectedValue);
-                    DishViewModel product = _logicD.Read(new DishBindingModel
-                    {
-                        Id
-                    = id
-                    })?[0];
+                    DishViewModel product = _logicD.Read(new DishBindingModel { Id = id })?[0];
                     int count = Convert.ToInt32(textBoxCount.Text);
                     textBoxSum.Text = (count * product?.Price ?? 0).ToString();
                 }
@@ -78,7 +74,7 @@ namespace AbstractFoodDeliveryView
             }
             if (comboBoxDish.SelectedValue == null)
             {
-                MessageBox.Show("Выберите изделие", "Ошибка", MessageBoxButtons.OK,
+                MessageBox.Show("Выберите блюдо", "Ошибка", MessageBoxButtons.OK,
                MessageBoxIcon.Error);
                 return;
             }
