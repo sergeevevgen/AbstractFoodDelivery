@@ -177,7 +177,6 @@ namespace AbstractFoodDeliveryFileImplement.Implements
 						else
 							break;
 					}
-					flag = true;
 				}
 			}
 			return flag;
