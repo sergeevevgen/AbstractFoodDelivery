@@ -48,7 +48,8 @@ namespace AbstractFoodDeliveryFileImplement.Implements
             return source.Orders
                 .Where(rec => rec.Id.Equals(model.Id) 
                 || rec.DateCreate >= model.DateFrom
-                && rec.DateCreate <= model.DateTo)
+                && rec.DateCreate <= model.DateTo ||
+                model.ClientId.HasValue && rec.ClientId == model.ClientId)
                 .Select(CreateModel)
                 .ToList();
         }
@@ -80,6 +81,7 @@ namespace AbstractFoodDeliveryFileImplement.Implements
         private static Order CreateModel(OrderBindingModel model, Order order)
         {
             order.DishId = model.DishId;
+            order.ClientId = model.ClientId.Value;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -88,12 +90,13 @@ namespace AbstractFoodDeliveryFileImplement.Implements
             return order;
         }
 
-
         private OrderViewModel CreateModel(Order order)
         {
             return new OrderViewModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
+                ClientFIO = source.Clients.FirstOrDefault(rec => rec.Id == order.Id)?.ClientFIO,
                 DishId = order.DishId,
                 DishName = source.Dishes.FirstOrDefault(rec => rec.Id == order.DishId)?.DishName,
                 Count = order.Count,

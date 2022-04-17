@@ -12,18 +12,42 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbstractFoodDeliveryDatabaseImplement.Migrations
 {
     [DbContext(typeof(AbstractFoodDeliveryDatabase))]
-    [Migration("20220323121950_InitialCreate")]
+    [Migration("20220417092130_InitialCreate")]
     partial class InitialCreate
     {
-        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0-preview.2.22153.1")
+                .HasAnnotation("ProductVersion", "6.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClientFIO")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients");
+                });
 
             modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.Dish", b =>
                 {
@@ -96,6 +120,9 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
@@ -115,6 +142,8 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("DishId");
 
@@ -142,13 +171,26 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
 
             modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.Order", b =>
                 {
+                    b.HasOne("AbstractFoodDeliveryDatabaseImplement.Models.Client", "Client")
+                        .WithMany("Orders")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AbstractFoodDeliveryDatabaseImplement.Models.Dish", "Dish")
                         .WithMany("Orders")
                         .HasForeignKey("DishId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Client");
+
                     b.Navigation("Dish");
+                });
+
+            modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.Client", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.Dish", b =>

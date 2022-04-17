@@ -14,14 +14,17 @@ namespace AbstractFoodDeliveryFileImplement
         private readonly string IngredientFileName = "Ingredient.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string DishFileName = "Dish.xml";
+        private readonly string ClientFileName = "Client.xml";
         public List<Ingredient> Ingredients { get; set; }
         public List<Order> Orders { get; set; }
         public List<Dish> Dishes { get; set; }
+        public List<Client> Clients { get; set; }
         private FileDataListSingleton()
         {
             Ingredients = LoadIngredients();
             Orders = LoadOrders();
             Dishes = LoadDishes();
+            Clients = LoadClients();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -36,6 +39,7 @@ namespace AbstractFoodDeliveryFileImplement
             instance.SaveIngredients();
             instance.SaveOrders();
             instance.SaveDishes();
+            instance.SaveClients();
         }
         private List<Ingredient> LoadIngredients()
         {
@@ -90,7 +94,7 @@ namespace AbstractFoodDeliveryFileImplement
                 {
                     var dishIngr = new Dictionary<int, int>();
                     foreach (var ingredient in
-                   elem.Element("DishIngredients").Elements("DishIngredient").ToList())
+                    elem.Element("DishIngredients").Elements("DishIngredient").ToList())
                     {
                         dishIngr.Add(Convert.ToInt32(ingredient.Element("Key").Value),
                        Convert.ToInt32(ingredient.Element("Value").Value));
@@ -106,6 +110,28 @@ namespace AbstractFoodDeliveryFileImplement
             }
             return list;
         }
+
+        private List<Client> LoadClients()
+        {
+            var list = new List<Client>();
+            if(File.Exists(ClientFileName))
+            {
+                var xDocument = XDocument.Load(ClientFileName);
+                var xElements = xDocument.Root.Elements("Client").ToList();
+                foreach(var elem in xElements)
+                {
+                    list.Add(new Client
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ClientFIO = elem.Element("ClientFIO").Value,
+                        Email = elem.Element("Email").Value,
+                        Password = elem.Element("Password").Value
+                    });
+                }
+            }
+            return list;
+        }
+
         private void SaveIngredients()
         {
             if (Ingredients != null)
@@ -163,6 +189,24 @@ namespace AbstractFoodDeliveryFileImplement
                 }
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(DishFileName);
+            }
+        }
+
+        private void SaveClients()
+        {
+            if(Clients != null)
+            {
+                var xElement = new XElement("Clients");
+                foreach(var client in Clients)
+                {
+                    xElement.Add(new XElement("Client",
+                    new XAttribute("Id", client.Id),
+                    new XElement("ClientFIO", client.ClientFIO),
+                    new XElement("Email", client.Email),
+                    new XElement("Password", client.Password)));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(ClientFileName);
             }
         }
     }
