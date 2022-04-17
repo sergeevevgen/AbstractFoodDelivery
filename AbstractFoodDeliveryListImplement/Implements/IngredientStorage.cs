@@ -87,19 +87,20 @@ namespace AbstractFoodDeliveryListImplement.Implements
 
         public void Update(IngredientBindingModel model)
         {
-            Ingredient tempComponent = null;
-            foreach (var component in source.Ingredients)
+            Ingredient tempIngredient = null;
+            foreach (var ingredient in source.Ingredients)
             {
-                if (component.Id == model.Id)
+                if (ingredient.Id == model.Id)
                 {
-                    tempComponent = component;
+                    tempIngredient = ingredient;
+                    break;
                 }
             }
-            if (tempComponent == null)
+            if (tempIngredient == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            CreateModel(model, tempComponent);
+            CreateModel(model, tempIngredient);
         }
 
         private static Ingredient CreateModel(IngredientBindingModel model, Ingredient component)

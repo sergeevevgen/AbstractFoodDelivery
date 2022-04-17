@@ -11,7 +11,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
         {
             using var context = new AbstractFoodDeliveryDatabase();
             Ingredient element = context.Ingredients.FirstOrDefault(rec => rec.Id ==
-           model.Id);
+            model.Id);
             if (element != null)
             {
                 context.Ingredients.Remove(element);

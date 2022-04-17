@@ -4,16 +4,16 @@ using Unity;
 
 namespace AbstractFoodDeliveryView
 {
-    public partial class FormDishes : Form
+    public partial class FormWareHouses : Form
     {
-        private readonly IDishLogic _logic;
-        public FormDishes(IDishLogic logic)
+        private readonly IWareHouseLogic _logic;
+        public FormWareHouses(IWareHouseLogic logic)
         {
             InitializeComponent();
             _logic = logic;
         }
 
-        private void FormDishes_Load(object sender, EventArgs e)
+        private void FormWareHouses_Load(object sender, EventArgs e)
         {
             LoadData();
         }
@@ -27,7 +27,7 @@ namespace AbstractFoodDeliveryView
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[3].Visible = false;
+                    dataGridView.Columns[4].Visible = false;
                     dataGridView.Columns[1].AutoSizeMode =
                     DataGridViewAutoSizeColumnMode.Fill;
                 }
@@ -41,7 +41,7 @@ namespace AbstractFoodDeliveryView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Program.Container.Resolve<FormDish>();
+            var form = Program.Container.Resolve<FormWareHouse>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -52,7 +52,7 @@ namespace AbstractFoodDeliveryView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Program.Container.Resolve<FormDish>();
+                var form = Program.Container.Resolve<FormWareHouse>();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -66,13 +66,13 @@ namespace AbstractFoodDeliveryView
             if (dataGridView.SelectedRows.Count == 1)
             {
                 if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
-               MessageBoxIcon.Question) == DialogResult.Yes)
+                MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     int id =
                     Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        _logic.Delete(new DishBindingModel { Id = id });
+                        _logic.Delete(new WareHouseBindingModel { Id = id });
                     }
                     catch (Exception ex)
                     {
@@ -87,6 +87,20 @@ namespace AbstractFoodDeliveryView
         private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void buttonView_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                var form = Program.Container.Resolve<FormWareHouse>();
+                form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                form.IsShow = true;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData();
+                }
+            }
         }
     }
 }

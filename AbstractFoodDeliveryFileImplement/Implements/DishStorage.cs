@@ -37,12 +37,12 @@ namespace AbstractFoodDeliveryFileImplement.Implements
             }
             var dish = source.Dishes
             .FirstOrDefault(rec => rec.DishName == model.DishName || rec.Id
-           == model.Id);
+            == model.Id);
             return dish != null ? CreateModel(dish) : null;
         }
         public void Insert(DishBindingModel model)
         {
-            int maxId = source.Dishes.Count > 0 ? source.Ingredients.Max(rec => rec.Id)
+            int maxId = source.Dishes.Count > 0 ? source.Dishes.Max(rec => rec.Id)
 : 0;
             var element = new Dish
             {
@@ -90,12 +90,12 @@ namespace AbstractFoodDeliveryFileImplement.Implements
                 if (dish.DishIngredients.ContainsKey(ingredient.Key))
                 {
                     dish.DishIngredients[ingredient.Key] =
-                   model.DishIngredients[ingredient.Key].Item2;
+                    model.DishIngredients[ingredient.Key].Item2;
                 }
                 else
                 {
                     dish.DishIngredients.Add(ingredient.Key,
-                   model.DishIngredients[ingredient.Key].Item2);
+                    model.DishIngredients[ingredient.Key].Item2);
                 }
             }
             return dish;
