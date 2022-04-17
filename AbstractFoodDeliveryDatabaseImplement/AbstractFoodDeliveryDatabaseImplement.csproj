@@ -19,4 +19,8 @@
     <ProjectReference Include="..\AbstractFoodDeliveryContracts\AbstractFoodDeliveryContracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
