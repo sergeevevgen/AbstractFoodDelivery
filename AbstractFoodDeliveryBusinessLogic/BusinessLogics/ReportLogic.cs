@@ -48,12 +48,9 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                 };
                 foreach (var ingredient in dish.DishIngredients)
                 {
-                    if (dish.DishIngredients.ContainsKey(ingredient.Key))
-                    {
-                        record.Ingredients.Add(new Tuple<string, int>(ingredient.Value.Item1,
-                        ingredient.Value.Item2));
-                        record.TotalCount += ingredient.Value.Item2;
-                    }
+                    record.Ingredients.Add(new Tuple<string, int>(ingredient.Value.Item1,
+                    ingredient.Value.Item2));
+                    record.TotalCount += ingredient.Value.Item2;
                 }
                 list.Add(record);
             }

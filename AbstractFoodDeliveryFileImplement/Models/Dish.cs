@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AbstractFoodDeliveryFileImplement.Models
+﻿namespace AbstractFoodDeliveryFileImplement.Models
 {
     /// <summary>
     /// Изделие, изготавливаемое в службе
