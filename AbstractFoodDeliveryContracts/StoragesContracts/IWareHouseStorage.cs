@@ -16,6 +16,6 @@ namespace AbstractFoodDeliveryContracts.StoragesContracts
 
         void Delete(WareHouseBindingModel model);
 
-        bool TakeIngredientsInWork(int ingredientid, int count);
+        bool TakeIngredientsInWork(int dishid, int count);
     }
 }
