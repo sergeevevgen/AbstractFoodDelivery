@@ -63,9 +63,9 @@ namespace AbstractFoodDeliveryListImplement.Implements
         public List<DishViewModel> GetFullList()
         {
             var result = new List<DishViewModel>();
-            foreach (var component in source.Dishes)
+            foreach (var dish in source.Dishes)
             {
-                result.Add(CreateModel(component));
+                result.Add(CreateModel(dish));
             }
             return result;
         }
@@ -77,11 +77,11 @@ namespace AbstractFoodDeliveryListImplement.Implements
                 Id = 1,
                 DishIngredients = new Dictionary<int, int>()
             };
-            foreach (var product in source.Dishes)
+            foreach (var dish in source.Dishes)
             {
-                if (product.Id >= tempDish.Id)
+                if (dish.Id >= tempDish.Id)
                 {
-                    tempDish.Id = product.Id + 1;
+                    tempDish.Id = dish.Id + 1;
                 }
             }
             source.Dishes.Add(CreateModel(model, tempDish));
@@ -119,17 +119,17 @@ namespace AbstractFoodDeliveryListImplement.Implements
                 }
             }
             // обновляем существующие и добавляем новые
-            foreach (var component in model.DishIngredients)
+            foreach (var ingredient in model.DishIngredients)
             {
-                if (dish.DishIngredients.ContainsKey(component.Key))
+                if (dish.DishIngredients.ContainsKey(ingredient.Key))
                 {
-                    dish.DishIngredients[component.Key] =
-                    model.DishIngredients[component.Key].Item2;
+                    dish.DishIngredients[ingredient.Key] =
+                    model.DishIngredients[ingredient.Key].Item2;
                 }
                 else
                 {
-                    dish.DishIngredients.Add(component.Key,
-                    model.DishIngredients[component.Key].Item2);
+                    dish.DishIngredients.Add(ingredient.Key,
+                    model.DishIngredients[ingredient.Key].Item2);
                 }
             }
             return dish;
