@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AbstractFoodDeliveryDatabaseImplement.Models
 {
     /// <summary>
-    /// Ингредиент требуемый для изготовления блюда
+    /// Ингредиент, требуемый для изготовления блюда
     /// </summary>
     public class Ingredient
     {
