@@ -27,7 +27,7 @@ namespace AbstractFoodDeliveryView
             try
             {
                 var list = _orderLogic.Read(null);
-                if(list != null)
+                if (list != null)
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
