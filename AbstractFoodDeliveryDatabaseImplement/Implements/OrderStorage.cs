@@ -46,9 +46,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
             using var context = new AbstractFoodDeliveryDatabase();
             return context.Orders
                 .Include(rec => rec.Dish)
-                .Where(rec => rec.Id.Equals(model.Id) 
-                || rec.DateCreate >= model.DateFrom 
-                && rec.DateCreate <= model.DateTo)
+                .Where(rec => rec.Id.Equals(model.Id))
                 .ToList()
                 .Select(CreateModel)
                 .ToList();

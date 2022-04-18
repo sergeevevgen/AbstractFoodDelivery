@@ -1,6 +1,4 @@
 using AbstractFoodDeliveryBusinessLogic.BusinessLogics;
-using AbstractFoodDeliveryBusinessLogic.OfficePackage;
-using AbstractFoodDeliveryBusinessLogic.OfficePackage.Implements;
 using AbstractFoodDeliveryContracts.BusinessLogicsContracts;
 using AbstractFoodDeliveryContracts.StoragesContracts;
 using AbstractFoodDeliveryDatabaseImplement.Implements;
@@ -50,13 +48,9 @@ namespace AbstractFoodDeliveryView
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDishLogic, DishLogic>(new
             HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IReportLogic, ReportLogic>(new
+            currentContainer.RegisterType<IWareHouseLogic, WareHouseLogic>(new
             HierarchicalLifetimeManager());
-            currentContainer.RegisterType<AbstractSaveToExcel, SaveToExcel>(new 
-            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<AbstractSaveToWord, SaveToWord>(new 
-            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<AbstractSaveToPdf, SaveToPdf>(new
+            currentContainer.RegisterType<IWareHouseStorage, WareHouseStorage>(new
             HierarchicalLifetimeManager());
             return currentContainer;
         }
