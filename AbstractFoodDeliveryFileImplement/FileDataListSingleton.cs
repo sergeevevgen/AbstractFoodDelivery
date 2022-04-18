@@ -14,18 +14,14 @@ namespace AbstractFoodDeliveryFileImplement
         private readonly string IngredientFileName = "Ingredient.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string DishFileName = "Dish.xml";
-        private readonly string WareHouseFileName = "WareHouse.xml";
         public List<Ingredient> Ingredients { get; set; }
         public List<Order> Orders { get; set; }
         public List<Dish> Dishes { get; set; }
-        public List<WareHouse> WareHouses { get; set; }
-
         private FileDataListSingleton()
         {
             Ingredients = LoadIngredients();
             Orders = LoadOrders();
             Dishes = LoadDishes();
-            WareHouses = LoadWareHouses();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -40,7 +36,6 @@ namespace AbstractFoodDeliveryFileImplement
             instance.SaveIngredients();
             instance.SaveOrders();
             instance.SaveDishes();
-            instance.SaveWareHouses();
         }
         private List<Ingredient> LoadIngredients()
         {
@@ -111,34 +106,6 @@ namespace AbstractFoodDeliveryFileImplement
             }
             return list;
         }
-        private List<WareHouse> LoadWareHouses()
-        {
-            var list = new List<WareHouse>();
-            if (File.Exists(WareHouseFileName))
-            {
-                var xDocument = XDocument.Load(WareHouseFileName);
-                var xElements = xDocument.Root.Elements("WareHouse").ToList();
-                foreach (var elem in xElements)
-                {
-                    var warehouseIngr = new Dictionary<int, int>();
-                    foreach (var ingredient in
-                    elem.Element("WareHouseIngredients").Elements("WareHouseIngredient").ToList())
-                    {
-                        warehouseIngr.Add(Convert.ToInt32(ingredient.Element("Key").Value),
-                        Convert.ToInt32(ingredient.Element("Value").Value));
-                    }
-                    list.Add(new WareHouse
-                    {
-                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        WareHouseName = elem.Element("WareHouseName").Value,
-                        StorekeeperFIO = elem.Element("StorekeeperFIO").Value,
-                        DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
-                        WareHouseIngredients = warehouseIngr
-                    });
-                }
-            }
-            return list;
-        }
         private void SaveIngredients()
         {
             if (Ingredients != null)
@@ -196,31 +163,6 @@ namespace AbstractFoodDeliveryFileImplement
                 }
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(DishFileName);
-            }
-        }
-        private void SaveWareHouses()
-        {
-            if (WareHouses != null)
-            {
-                var xElement = new XElement("WareHouses");
-                foreach (var warehouse in WareHouses)
-                {
-                    var ingrElement = new XElement("WareHouseIngredients");
-                    foreach (var ingredient in warehouse.WareHouseIngredients)
-                    {
-                        ingrElement.Add(new XElement("WareHouseIngredient",
-                        new XElement("Key", ingredient.Key),
-                        new XElement("Value", ingredient.Value)));
-                    }
-                    xElement.Add(new XElement("WareHouse",
-                     new XAttribute("Id", warehouse.Id),
-                     new XElement("WareHouseName", warehouse.WareHouseName),
-                     new XElement("StorekeeperFIO", warehouse.StorekeeperFIO),
-                     new XElement("DateCreate", warehouse.DateCreate),
-                     ingrElement));
-                }
-                var xDocument = new XDocument(xElement);
-                xDocument.Save(WareHouseFileName);
             }
         }
     }
