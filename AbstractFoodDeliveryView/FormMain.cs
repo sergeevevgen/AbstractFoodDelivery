@@ -164,5 +164,31 @@ namespace AbstractFoodDeliveryView
             var form = Program.Container.Resolve<FormReportOrders>();
             form.ShowDialog();
         }
+
+        private void складыСИнгредиентамиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormReportWareHouseIngredients>();
+            form.ShowDialog();
+        }
+
+        private void списокСкладовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                _reportLogic.SaveWareHousesToWordFile(new ReportBindingModel
+                {
+                    FileName = dialog.FileName
+                });
+                MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+            }
+        }
+
+        private void списокОтсортированныхЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormReportOrdersByDate>();
+            form.ShowDialog();
+        }
     }
 }
