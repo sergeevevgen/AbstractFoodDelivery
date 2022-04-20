@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbstractFoodDeliveryDatabaseImplement.Migrations
 {
     [DbContext(typeof(AbstractFoodDeliveryDatabase))]
-    [Migration("20220420084628_InitialCreate")]
+    [Migration("20220420130023_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,7 +158,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
                     b.Property<int>("DishId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ImplementerNum")
+                    b.Property<int?>("ImplementerId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -173,7 +173,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
 
                     b.HasIndex("DishId");
 
-                    b.HasIndex("ImplementerNum");
+                    b.HasIndex("ImplementerId");
 
                     b.ToTable("Orders");
                 });
@@ -213,7 +213,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
 
                     b.HasOne("AbstractFoodDeliveryDatabaseImplement.Models.Implementer", "Implementer")
                         .WithMany("Orders")
-                        .HasForeignKey("ImplementerNum");
+                        .HasForeignKey("ImplementerId");
 
                     b.Navigation("Client");
 

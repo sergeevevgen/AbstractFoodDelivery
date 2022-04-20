@@ -9,7 +9,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Models
         public int Id { get; set; }
         public int ClientId { get; set; }
         public int DishId { get; set; }
-        public int? ImplementerNum { get; set; }
+        public int? ImplementerId { get; set; }
         [Required]
         public int Count { get; set; }
         [Required]

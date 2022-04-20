@@ -74,7 +74,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     DishId = table.Column<int>(type: "int", nullable: false),
-                    ImplementerNum = table.Column<int>(type: "int", nullable: true),
+                    ImplementerId = table.Column<int>(type: "int", nullable: true),
                     Count = table.Column<int>(type: "int", nullable: false),
                     Sum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
@@ -97,8 +97,8 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Orders_Implementers_ImplementerNum",
-                        column: x => x.ImplementerNum,
+                        name: "FK_Orders_Implementers_ImplementerId",
+                        column: x => x.ImplementerId,
                         principalTable: "Implementers",
                         principalColumn: "Id");
                 });
@@ -151,9 +151,9 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
                 column: "DishId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_ImplementerNum",
+                name: "IX_Orders_ImplementerId",
                 table: "Orders",
-                column: "ImplementerNum");
+                column: "ImplementerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

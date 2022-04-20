@@ -106,7 +106,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
             {
                 Id = order.Id,
                 ClientId = order.ClientId,
-                ImplementerId = order.ImplementerId,
+                ImplementerId = model.ImplementerId,
                 DishId = order.DishId,
                 Count = order.Count,
                 Sum = order.Sum,

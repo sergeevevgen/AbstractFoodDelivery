@@ -21,7 +21,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Models
         /// <summary>
         /// Внешний ключ (связь один ко многим)
         /// </summary>
-        [ForeignKey("ImplementerNum")]
+        [ForeignKey("ImplementerId")]
         public virtual List<Order> Orders { get; set; }
     }
 }

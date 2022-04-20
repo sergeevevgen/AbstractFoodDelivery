@@ -18,7 +18,8 @@ namespace AbstractFoodDeliveryRestApi.Controllers
         }
 
         [HttpGet]
-        public List<DishViewModel> GetDishList() => _dish.Read(null)?.ToList();
+        public List<DishViewModel> GetDishList() => _dish
+            .Read(null)?.ToList();
         
         [HttpGet]
         public DishViewModel GetDish(int dishId) => _dish
@@ -29,8 +30,8 @@ namespace AbstractFoodDeliveryRestApi.Controllers
             .Read(new OrderBindingModel { ClientId = clientId });
 
         [HttpPost]
-        public void CreateOrder(CreateOrderBindingModel model) =>
-       _order.CreateOrder(model);
+        public void CreateOrder(CreateOrderBindingModel model) => _order
+            .CreateOrder(model);
     }
 
 }

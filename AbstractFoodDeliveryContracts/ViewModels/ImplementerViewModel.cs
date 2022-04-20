@@ -12,7 +12,7 @@ namespace AbstractFoodDeliveryContracts.ViewModels
         public int Id { get; set; }
         [DisplayName("ФИО повара")]
         public string FIO { get; set; }
-        [DisplayName("Время перерыва")]
+        [DisplayName("Время отдыха")]
         public int PauseTime { get; set; }
         [DisplayName("Время работы")]
         public int WorkingTime { get; set; }

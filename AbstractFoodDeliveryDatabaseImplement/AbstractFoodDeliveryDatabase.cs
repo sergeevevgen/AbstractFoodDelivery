@@ -13,6 +13,11 @@ namespace AbstractFoodDeliveryDatabaseImplement
             }
             base.OnConfiguring(optionsBuilder);
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Order>().Property(m => m.ImplementerId).IsRequired(false);
+            base.OnModelCreating(modelBuilder);
+        }
         public virtual DbSet<Ingredient> Ingredients { set; get; }
         public virtual DbSet<Dish> Dishes { set; get; }
         public virtual DbSet<DishIngredient> DishIngredients { set; get; }

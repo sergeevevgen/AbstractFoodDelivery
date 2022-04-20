@@ -59,7 +59,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
                 (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
                 (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
                 (model.SearchStatus.HasValue && model.SearchStatus.Value == rec.Status) ||
-                (model.ImplementerId.HasValue && rec.ImplementerNum == model.ImplementerId && model.Status == rec.Status))
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && model.Status == rec.Status))
                 .ToList()
                 .Select(CreateModel)
                 .ToList();
@@ -73,9 +73,9 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
                 Id = rec.Id,
                 DishId = rec.DishId,
                 ClientId = rec.ClientId,
-                ImplementerId = rec.ImplementerNum,
+                ImplementerId = rec.ImplementerId,
                 ClientFIO = rec.Client.ClientFIO,
-                ImplementerFIO = rec.ImplementerNum.HasValue ? rec.Implementer.FIO : string.Empty,
+                ImplementerFIO = rec.ImplementerId.HasValue ? rec.Implementer.FIO : string.Empty,
                 DishName = rec.Dish.DishName,
                 Count = rec.Count,
                 Sum = rec.Sum,
@@ -128,7 +128,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
         {
             order.DishId = model.DishId;
             order.ClientId = model.ClientId.Value;
-            order.ImplementerNum = model.ImplementerId.Value;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -144,8 +144,8 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
                 Id = order.Id,
                 ClientId = order.ClientId,
                 ClientFIO = order.Client.ClientFIO,
-                ImplementerId = order.ImplementerNum.Value,
-                ImplementerFIO = order.ImplementerNum.HasValue ? order.Implementer.FIO : String.Empty,
+                ImplementerId = order.ImplementerId,
+                ImplementerFIO = order.ImplementerId.HasValue ? order.Implementer.FIO : String.Empty,
                 DishId = order.DishId,
                 DishName = order.Dish.DishName,
                 Count = order.Count,

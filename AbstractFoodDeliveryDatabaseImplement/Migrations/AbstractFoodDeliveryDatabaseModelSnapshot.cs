@@ -156,7 +156,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
                     b.Property<int>("DishId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ImplementerNum")
+                    b.Property<int?>("ImplementerId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -171,7 +171,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
 
                     b.HasIndex("DishId");
 
-                    b.HasIndex("ImplementerNum");
+                    b.HasIndex("ImplementerId");
 
                     b.ToTable("Orders");
                 });
@@ -211,7 +211,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
 
                     b.HasOne("AbstractFoodDeliveryDatabaseImplement.Models.Implementer", "Implementer")
                         .WithMany("Orders")
-                        .HasForeignKey("ImplementerNum");
+                        .HasForeignKey("ImplementerId");
 
                     b.Navigation("Client");
 
