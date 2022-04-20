@@ -16,7 +16,7 @@ namespace AbstractFoodDeliveryContracts.ViewModels
         public string ClientFIO { get; set; }
 
         [DisplayName("Повар")]
-        public string? ImplementerFIO { get; set; }
+        public string ImplementerFIO { get; set; }
 
         [DisplayName("Блюдо")]
         public string DishName { get; set; }

@@ -10,11 +10,17 @@ namespace AbstractFoodDeliveryView
 
         private readonly IReportLogic _reportLogic;
 
-        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic)
+        private readonly IImplementerLogic _implementerLogic;
+
+        private readonly IWorkProcess _workProcess;
+        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic,
+            IImplementerLogic implementerLogic, IWorkProcess workProcess)
         {
             InitializeComponent();
             _orderLogic = orderLogic;
             _reportLogic = reportLogic;
+            _implementerLogic = implementerLogic;
+            _workProcess = workProcess;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -30,11 +36,9 @@ namespace AbstractFoodDeliveryView
                 if(list != null)
                 {
                     dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    
                     dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
             catch (Exception ex)
@@ -166,12 +170,13 @@ namespace AbstractFoodDeliveryView
 
         private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            _workProcess.DoWork(_implementerLogic, _orderLogic);
         }
 
         private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            var form = Program.Container.Resolve<FormImplementers>();
+            form.ShowDialog();
         }
     }
 }

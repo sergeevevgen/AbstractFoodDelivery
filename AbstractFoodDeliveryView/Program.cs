@@ -58,6 +58,8 @@ namespace AbstractFoodDeliveryView
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IClientLogic, ClientLogic>(new
             HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IWorkProcess, WorkModeling>(new
+            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IImplementerLogic, ImplementerLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<AbstractSaveToExcel, SaveToExcel>(new 

@@ -9,7 +9,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Models
         public int Id { get; set; }
         public int ClientId { get; set; }
         public int DishId { get; set; }
-        public int? ImplementerId { get; set; }
+        public int? ImplementerNum { get; set; }
         [Required]
         public int Count { get; set; }
         [Required]
@@ -21,5 +21,6 @@ namespace AbstractFoodDeliveryDatabaseImplement.Models
         public DateTime? DateImplement { get; set; }
         public virtual Dish Dish { get; set; }
         public virtual Client Client { get; set; }
+        public virtual Implementer Implementer { get; set; }
     }
 }
