@@ -10,9 +10,13 @@ namespace AbstractFoodDeliveryContracts.ViewModels
         public int Id { get; set; }
         public int ClientId { get; set; }
         public int DishId { get; set; }
+        public int? ImplementerId { get; set; }
 
         [DisplayName("Клиент")]
         public string ClientFIO { get; set; }
+
+        [DisplayName("Повар")]
+        public string? ImplementerFIO { get; set; }
 
         [DisplayName("Блюдо")]
         public string DishName { get; set; }

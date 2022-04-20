@@ -163,5 +163,15 @@ namespace AbstractFoodDeliveryView
             var form = Program.Container.Resolve<FormClients>();
             form.ShowDialog();
         }
+
+        private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

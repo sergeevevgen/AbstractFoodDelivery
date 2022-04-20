@@ -38,13 +38,15 @@ namespace AbstractFoodDeliveryView
         private static IUnityContainer BuildUnityContainer()
         {
             var currentContainer = new UnityContainer();
-            currentContainer.RegisterType<IIngredientStorage,
-            IngredientStorage>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IIngredientStorage, IngredientStorage>(new 
+            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderStorage, OrderStorage>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDishStorage, DishStorage>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IClientStorage, ClientStorage>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IImplementerStorage, ImplementerStorage>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IIngredientLogic, IngredientLogic>(new
             HierarchicalLifetimeManager());
@@ -55,6 +57,8 @@ namespace AbstractFoodDeliveryView
             currentContainer.RegisterType<IReportLogic, ReportLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IClientLogic, ClientLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IImplementerLogic, ImplementerLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<AbstractSaveToExcel, SaveToExcel>(new 
             HierarchicalLifetimeManager());
