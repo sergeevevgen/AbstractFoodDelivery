@@ -1,27 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+<PropertyGroup>
+	<OutputType>WinExe</OutputType>
+	<TargetFramework>net6.0-windows</TargetFramework>
+	<Nullable>enable</Nullable>
+	<UseWindowsForms>true</UseWindowsForms>
+	<ImplicitUsings>enable</ImplicitUsings>
+</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Unity" Version="5.11.9" />
-  </ItemGroup>
+<ItemGroup>
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
+		<PrivateAssets>all</PrivateAssets>
+		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="ReportViewerCore.WinForms" Version="15.1.16" />
+	<PackageReference Include="Unity" Version="5.11.10" />
+</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\AbstractFoodDeliveryBusinessLogic\AbstractFoodDeliveryBusinessLogic.csproj" />
-    <ProjectReference Include="..\AbstractFoodDeliveryContracts\AbstractFoodDeliveryContracts.csproj" />
-    <ProjectReference Include="..\AbstractFoodDeliveryDatabaseImplement\AbstractFoodDeliveryDatabaseImplement.csproj" />
-    <ProjectReference Include="..\AbstractFoodDeliveryFileImplement\AbstractFoodDeliveryFileImplement.csproj" />
-    <ProjectReference Include="..\AbstractFoodDeliveryListImplement\AbstractFoodDeliveryListImplement.csproj" />
-  </ItemGroup>
+<ItemGroup>
+	<ProjectReference Include="..\AbstractFoodDeliveryBusinessLogic\AbstractFoodDeliveryBusinessLogic.csproj" />
+	<ProjectReference Include="..\AbstractFoodDeliveryContracts\AbstractFoodDeliveryContracts.csproj" />
+	<ProjectReference Include="..\AbstractFoodDeliveryDatabaseImplement\AbstractFoodDeliveryDatabaseImplement.csproj" />
+	<ProjectReference Include="..\AbstractFoodDeliveryFileImplement\AbstractFoodDeliveryFileImplement.csproj" />
+	<ProjectReference Include="..\AbstractFoodDeliveryListImplement\AbstractFoodDeliveryListImplement.csproj" />
+</ItemGroup>
 
 </Project>

@@ -69,7 +69,7 @@ namespace AbstractFoodDeliveryView
                MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     int id =
-                   Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                    Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
                         _logic.Delete(new DishBindingModel { Id = id });

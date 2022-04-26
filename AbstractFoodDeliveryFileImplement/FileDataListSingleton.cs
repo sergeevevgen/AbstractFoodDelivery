@@ -58,11 +58,11 @@ namespace AbstractFoodDeliveryFileImplement
         private List<Order> LoadOrders()
         {
             var list = new List<Order>();
-            if(File.Exists(OrderFileName))
+            if (File.Exists(OrderFileName))
             {
                 var xDocument = XDocument.Load(OrderFileName);
                 var xElements = xDocument.Root.Elements("Order").ToList();
-                foreach(var elem in xElements)
+                foreach (var elem in xElements)
                 {
                     bool dateimplement = elem.Element("DateImplement").IsEmpty;
                     list.Add(new Order
@@ -71,7 +71,7 @@ namespace AbstractFoodDeliveryFileImplement
                         DishId = Convert.ToInt32(elem.Element("DishId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
-                        Status = (OrderStatus) Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
+                        Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
                         DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
                         DateImplement = dateimplement ? null : Convert.ToDateTime(elem.Element("DateImplement").Value)
                     });
@@ -123,10 +123,10 @@ namespace AbstractFoodDeliveryFileImplement
         }
         private void SaveOrders()
         {
-            if(Orders != null)
+            if (Orders != null)
             {
                 var xElement = new XElement("Orders");
-                foreach(var order in Orders)
+                foreach (var order in Orders)
                 {
                     xElement.Add(new XElement("Order",
                     new XAttribute("Id", order.Id),

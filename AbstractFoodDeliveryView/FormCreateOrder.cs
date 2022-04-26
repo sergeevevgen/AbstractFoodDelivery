@@ -74,7 +74,7 @@ namespace AbstractFoodDeliveryView
             }
             if (comboBoxDish.SelectedValue == null)
             {
-                MessageBox.Show("Выберите изделие", "Ошибка", MessageBoxButtons.OK,
+                MessageBox.Show("Выберите блюдо", "Ошибка", MessageBoxButtons.OK,
                MessageBoxIcon.Error);
                 return;
             }
