@@ -145,7 +145,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
                 ClientId = order.ClientId,
                 ClientFIO = order.Client.ClientFIO,
                 ImplementerId = order.ImplementerId,
-                ImplementerFIO = order.ImplementerId.HasValue ? order.Implementer.FIO : String.Empty,
+                ImplementerFIO = order.ImplementerId.HasValue ? order.Implementer.FIO : string.Empty,
                 DishId = order.DishId,
                 DishName = order.Dish.DishName,
                 Count = order.Count,
