@@ -52,9 +52,11 @@ namespace AbstractFoodDeliveryListImplement.Implements
             var result = new List<OrderViewModel>();
             foreach (var order in source.Orders)
             {
-                if (order.Id == model.Id || order.DateCreate
-                >= model.DateFrom && order.DateCreate <= model.DateTo ||
-                order.ClientId == model.ClientId)
+                if (order.Id.Equals(model.Id) || (!model.DateFrom.HasValue && !model.DateTo.HasValue && order.DateCreate.Date == model.DateCreate.Date) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate.Date >= model.DateFrom.Value.Date && order.DateCreate.Date <= model.DateTo.Value.Date) ||
+                (model.ClientId.HasValue && order.ClientId == model.ClientId) ||
+                (model.SearchStatus.HasValue && model.SearchStatus.Value == order.Status) ||
+                (model.ImplementerId.HasValue && order.ImplementerId == model.ImplementerId && model.Status == order.Status))
                 {
                     result.Add(CreateModel(order));
                 }
@@ -96,6 +98,7 @@ namespace AbstractFoodDeliveryListImplement.Implements
                 if (order.Id == model.Id)
                 {
                     tempOrder = order;
+                    break;
                 }
             }
             if (tempOrder == null)
@@ -109,6 +112,7 @@ namespace AbstractFoodDeliveryListImplement.Implements
         {
             order.DishId = model.DishId;
             order.ClientId = model.ClientId.Value;
+            order.ImplementerId = model.ImplementerId.Value;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -120,9 +124,9 @@ namespace AbstractFoodDeliveryListImplement.Implements
         private OrderViewModel CreateModel(Order order)
         {
             string dishName = null;
-            foreach(var dish in source.Dishes)
-            { 
-                if(dish.Id == order.DishId)
+            foreach (var dish in source.Dishes)
+            {
+                if (dish.Id == order.DishId)
                 {
                     dishName = dish.DishName;
                     break;
@@ -130,14 +134,25 @@ namespace AbstractFoodDeliveryListImplement.Implements
             }
 
             string clientFIO = null;
-            foreach(var client in source.Clients)
+            foreach (var client in source.Clients)
             {
-                if(client.Id == order.ClientId)
+                if (client.Id == order.ClientId)
                 {
                     clientFIO = client.ClientFIO;
                     break;
                 }
             }
+
+            string implementerFIO = null;
+            foreach (var implementer in source.Implementers)
+            {
+                if (implementer.Id == order.ImplementerId)
+                {
+                    implementerFIO = implementer.FIO;
+                    break;
+                }
+            }
+
             return new OrderViewModel
             {
                 Id = order.Id,
@@ -145,6 +160,8 @@ namespace AbstractFoodDeliveryListImplement.Implements
                 ClientFIO = clientFIO,
                 DishId = order.DishId,
                 DishName = dishName,
+                ImplementerId = order.ImplementerId,
+                ImplementerFIO = implementerFIO,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status.ToString(),
