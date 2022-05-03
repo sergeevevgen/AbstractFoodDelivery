@@ -73,7 +73,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
                 Id = rec.Id,
                 DishId = rec.DishId,
                 ClientId = rec.ClientId,
-                ImplementerId = rec.ImplementerId,
+                ImplementerId = rec.ImplementerId.HasValue ? rec.ImplementerId : null,
                 ClientFIO = rec.Client.ClientFIO,
                 ImplementerFIO = rec.ImplementerId.HasValue ? rec.Implementer.FIO : string.Empty,
                 DishName = rec.Dish.DishName,
@@ -128,7 +128,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
         {
             order.DishId = model.DishId;
             order.ClientId = model.ClientId.Value;
-            order.ImplementerId = model.ImplementerId;
+            order.ImplementerId = model.ImplementerId.HasValue ? model.ImplementerId : null;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -144,8 +144,8 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
                 Id = order.Id,
                 ClientId = order.ClientId,
                 ClientFIO = order.Client.ClientFIO,
-                ImplementerId = order.ImplementerId,
-                ImplementerFIO = order.ImplementerId.HasValue ? order.Implementer.FIO : String.Empty,
+                ImplementerId = order.ImplementerId.HasValue ? order.ImplementerId : null,
+                ImplementerFIO = order.ImplementerId.HasValue ? order.Implementer.FIO : string.Empty,
                 DishId = order.DishId,
                 DishName = order.Dish.DishName,
                 Count = order.Count,
