@@ -102,7 +102,7 @@ namespace AbstractFoodDeliveryFileImplement.Implements
                 DishId = order.DishId,
                 DishName = source.Dishes.FirstOrDefault(rec => rec.Id == order.DishId)?.DishName,
                 ImplementerId = order.ImplementerId.Value,
-                ImplementerFIO = source.Implementers.FirstOrDefault(rec => rec.Id == order.ImplementerId)?.FIO,
+                ImplementerFIO = order.ImplementerId.HasValue ? source.Implementers.FirstOrDefault(rec => rec.Id == order.ImplementerId)?.FIO : string.Empty,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status.ToString(),

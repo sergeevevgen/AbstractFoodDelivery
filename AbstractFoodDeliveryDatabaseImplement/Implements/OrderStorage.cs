@@ -68,12 +68,16 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
         public List<OrderViewModel> GetFullList()
         {
             using var context = new AbstractFoodDeliveryDatabase();
-            return context.Orders.Include(rec => rec.Dish).Include(rec => rec.Client).Include(rec => rec.Implementer).Select(rec => new OrderViewModel
+            return context.Orders
+                .Include(rec => rec.Dish)
+                .Include(rec => rec.Client)
+                .Include(rec => rec.Implementer)
+                .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
                 DishId = rec.DishId,
                 ClientId = rec.ClientId,
-                ImplementerId = rec.ImplementerId.HasValue ? rec.ImplementerId : null,
+                ImplementerId = rec.ImplementerId,
                 ClientFIO = rec.Client.ClientFIO,
                 ImplementerFIO = rec.ImplementerId.HasValue ? rec.Implementer.FIO : string.Empty,
                 DishName = rec.Dish.DishName,
@@ -128,7 +132,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
         {
             order.DishId = model.DishId;
             order.ClientId = model.ClientId.Value;
-            order.ImplementerId = model.ImplementerId.HasValue ? model.ImplementerId : null;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -144,7 +148,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
                 Id = order.Id,
                 ClientId = order.ClientId,
                 ClientFIO = order.Client.ClientFIO,
-                ImplementerId = order.ImplementerId.HasValue ? order.ImplementerId : null,
+                ImplementerId = order.ImplementerId,
                 ImplementerFIO = order.ImplementerId.HasValue ? order.Implementer.FIO : string.Empty,
                 DishId = order.DishId,
                 DishName = order.Dish.DishName,
