@@ -34,7 +34,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                 throw new Exception("Уже есть клиент с такой почтой");
             }
 
-            if (!Regex.IsMatch(model.Email, @"\w+([\\.-]?\w+)*@\w+([\\.-]?\w+)*\\.\w{2,4}"))
+            if (!Regex.IsMatch(model.Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
             {
                 throw new Exception("В качестве логина должна быть указана почта");
             }

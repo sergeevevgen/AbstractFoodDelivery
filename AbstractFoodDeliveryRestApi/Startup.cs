@@ -69,16 +69,16 @@ namespace AbstractFoodDeliveryRestApi
             mailSender.MailConfig(new MailConfigBindingModel
             {
                 MailLogin =
-            Configuration?.GetSection("MailLogin")?.ToString(),
+            Configuration?.GetSection("MailLogin")?.Value.ToString(),
                 MailPassword =
-            Configuration?.GetSection("MailPassword")?.ToString(),
+            Configuration?.GetSection("MailPassword")?.Value.ToString(),
                 SmtpClientHost =
-            Configuration?.GetSection("SmtpClientHost")?.ToString(),
+            Configuration?.GetSection("SmtpClientHost")?.Value.ToString(),
                 SmtpClientPort =
-            Convert.ToInt32(Configuration?.GetSection("SmtpClientPort")?.ToString()),
-                PopHost = Configuration?.GetSection("PopHost")?.ToString(),
+            Convert.ToInt32(Configuration?.GetSection("SmtpClientPort")?.Value.ToString()),
+                PopHost = Configuration?.GetSection("PopHost")?.Value.ToString(),
                 PopPort =
-            Convert.ToInt32(Configuration?.GetSection("PopPort")?.ToString())
+            Convert.ToInt32(Configuration?.GetSection("PopPort")?.Value.ToString())
             });
         }
     }
