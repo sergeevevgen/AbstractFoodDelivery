@@ -9,14 +9,17 @@ using MailKit.Net.Pop3;
 using MailKit.Security;
 using System.Net;
 using System.Net.Mail;
+using AbstractFoodDeliveryContracts.StoragesContracts;
 
 namespace AbstractFoodDeliveryBusinessLogic.MailWorker
 {
     public class MailKitWorker : AbstractMailWorker
     {
-        public MailKitWorker(IMessageInfoLogic messageInfoLogic) :
+        private readonly IClientStorage _clientStorage;
+        public MailKitWorker(IMessageInfoLogic messageInfoLogic, IClientStorage clientStorage) :
         base(messageInfoLogic)
         {
+            _clientStorage = clientStorage;
         }
 
         protected override async Task SendMailAsync(MailSendInfoBindingModel info)
@@ -62,6 +65,7 @@ namespace AbstractFoodDeliveryBusinessLogic.MailWorker
                         {
                             list.Add(new MessageInfoBindingModel
                             {
+                                ClientId = _clientStorage.GetElement(new ClientBindingModel { Email = mail.Address })?.Id,
                                 DateDelivery =
                                 message.Date.DateTime,
                                 MessageId = message.MessageId,
