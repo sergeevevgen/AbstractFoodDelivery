@@ -72,19 +72,17 @@ namespace AbstractFoodDeliveryFileImplement
                 var xElements = xDocument.Root.Elements("Order").ToList();
                 foreach(var elem in xElements)
                 {
-                    bool dateimplement = elem.Element("DateImplement").IsEmpty;
-                    bool implementerid = elem.Element("ImplementerId").IsEmpty;
                     list.Add(new Order
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         DishId = Convert.ToInt32(elem.Element("DishId").Value),
                         ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
-                        ImplementerId = implementerid ? null : Convert.ToInt32(elem.Element("ImplementerId").Value) ,
+                        ImplementerId = elem.Element("ImplementerId").IsEmpty ? null : Convert.ToInt32(elem.Element("ImplementerId").Value) ,
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
                         Status = (OrderStatus) Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
                         DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
-                        DateImplement = dateimplement ? null : Convert.ToDateTime(elem.Element("DateImplement").Value)
+                        DateImplement = elem.Element("DateImplement").IsEmpty ? null : Convert.ToDateTime(elem.Element("DateImplement").Value)
                     });
                 }
             }
@@ -142,7 +140,7 @@ namespace AbstractFoodDeliveryFileImplement
         private List<Implementer> LoadImplementers()
         {
             var list = new List<Implementer>();
-            if(File.Exists(ImplementerFileName))
+            if (File.Exists(ImplementerFileName))
             {
                 var xDocument = XDocument.Load(ImplementerFileName);
                 var xElements = xDocument.Root.Elements("Implementer").ToList();
@@ -242,7 +240,7 @@ namespace AbstractFoodDeliveryFileImplement
 
         private void SaveImplementers()
         {
-            if(Implementers != null)
+            if (Implementers != null)
             {
                 var xElement = new XElement("Implementers");
                 foreach (var implementer in Implementers)

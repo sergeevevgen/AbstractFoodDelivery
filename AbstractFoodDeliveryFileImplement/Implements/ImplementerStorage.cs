@@ -17,7 +17,7 @@ namespace AbstractFoodDeliveryFileImplement.Implements
         public void Delete(ImplementerBindingModel model)
         {
             Implementer implementer = source.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
-            if(implementer != null)
+            if (implementer != null)
             {
                 source.Implementers.Remove(implementer);
             }
