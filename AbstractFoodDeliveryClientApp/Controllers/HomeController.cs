@@ -154,5 +154,15 @@ namespace AbstractFoodDeliveryClientApp.Controllers
             APIClient.GetRequest<DishViewModel>($"api/main/getdish?dishId={dish}");
             return count * dis.Price;
         }
+
+        [HttpGet]
+        public IActionResult Messages()
+        {
+            if (Program.Client == null)
+            {
+                return Redirect("~/Home/Enter");
+            }
+            return View(APIClient.GetRequest<List<MessageInfoViewModel>> ($"api/client/getclientsmessages?clientId={Program.Client.Id}")); 
+        }
     }
 }

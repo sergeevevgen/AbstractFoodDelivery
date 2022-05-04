@@ -124,9 +124,9 @@ namespace AbstractFoodDeliveryListImplement.Implements
         private OrderViewModel CreateModel(Order order)
         {
             string dishName = null;
-            foreach(var dish in source.Dishes)
-            { 
-                if(dish.Id == order.DishId)
+            foreach (var dish in source.Dishes)
+            {
+                if (dish.Id == order.DishId)
                 {
                     dishName = dish.DishName;
                     break;
@@ -134,9 +134,9 @@ namespace AbstractFoodDeliveryListImplement.Implements
             }
 
             string clientFIO = null;
-            foreach(var client in source.Clients)
+            foreach (var client in source.Clients)
             {
-                if(client.Id == order.ClientId)
+                if (client.Id == order.ClientId)
                 {
                     clientFIO = client.ClientFIO;
                     break;

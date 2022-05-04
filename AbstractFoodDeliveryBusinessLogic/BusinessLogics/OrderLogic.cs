@@ -3,16 +3,20 @@ using AbstractFoodDeliveryContracts.BusinessLogicsContracts;
 using AbstractFoodDeliveryContracts.StoragesContracts;
 using AbstractFoodDeliveryContracts.ViewModels;
 using AbstractFoodDeliveryContracts.Enums;
+using AbstractFoodDeliveryBusinessLogic.MailWorker;
 
 namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
 {
     public class OrderLogic : IOrderLogic
     {
         private readonly IOrderStorage _orderStorage;
-
-        public OrderLogic(IOrderStorage orderStorage)
+        private readonly AbstractMailWorker _mailWorker;
+        private readonly IClientStorage _clientStorage;
+        public OrderLogic(IOrderStorage orderStorage, IClientStorage clientStorage, AbstractMailWorker mailWorker)
         {
             _orderStorage = orderStorage;
+            _clientStorage = clientStorage;
+            _mailWorker = mailWorker;
         }
 
         public void CreateOrder(CreateOrderBindingModel model)
@@ -25,6 +29,15 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                 Sum = model.Sum,
                 Status = OrderStatus.Принят,
                 DateCreate = DateTime.Now
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = model.ClientId
+                })?.Email,
+                Subject = "Ваш заказ был создан",
+                Text = $"Заказ от {DateTime.Now} на сумму {model.Sum} был создан"
             });
         }
 
@@ -51,6 +64,15 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Выдан
             });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = order.ClientId
+                })?.Email,
+                Subject = $"Ваш заказ #{order.Id} был доставлен",
+                Text = $"Заказ от {order.DateCreate} на сумму {order.Sum} был доставлен в {DateTime.Now}"
+            });
         }
 
         public void FinishOrder(ChangeStatusBindingModel model)
@@ -75,6 +97,15 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Готов
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = order.ClientId
+                })?.Email,
+                Subject = $"Ваш заказ #{order.Id} был закончен",
+                Text = $"Заказ от {order.DateCreate} на сумму {order.Sum} был закончен"
             });
         }
 
@@ -113,6 +144,15 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                 DateCreate = order.DateCreate,
                 DateImplement = DateTime.Now,
                 Status = OrderStatus.Выполняется
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = order.ClientId
+                })?.Email,
+                Subject = $"Ваш заказ #{order.Id} был принят в работу",
+                Text = $"Заказ от {order.DateCreate} на сумму {order.Sum} был принят в работу"
             });
         }
     }

@@ -66,11 +66,11 @@ namespace AbstractFoodDeliveryFileImplement
         private List<Order> LoadOrders()
         {
             var list = new List<Order>();
-            if(File.Exists(OrderFileName))
+            if (File.Exists(OrderFileName))
             {
                 var xDocument = XDocument.Load(OrderFileName);
                 var xElements = xDocument.Root.Elements("Order").ToList();
-                foreach(var elem in xElements)
+                foreach (var elem in xElements)
                 {
                     list.Add(new Order
                     {
@@ -80,7 +80,7 @@ namespace AbstractFoodDeliveryFileImplement
                         ImplementerId = elem.Element("ImplementerId").IsEmpty ? null : Convert.ToInt32(elem.Element("ImplementerId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
-                        Status = (OrderStatus) Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
+                        Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
                         DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
                         DateImplement = elem.Element("DateImplement").IsEmpty ? null : Convert.ToDateTime(elem.Element("DateImplement").Value)
                     });
@@ -119,11 +119,11 @@ namespace AbstractFoodDeliveryFileImplement
         private List<Client> LoadClients()
         {
             var list = new List<Client>();
-            if(File.Exists(ClientFileName))
+            if (File.Exists(ClientFileName))
             {
                 var xDocument = XDocument.Load(ClientFileName);
                 var xElements = xDocument.Root.Elements("Client").ToList();
-                foreach(var elem in xElements)
+                foreach (var elem in xElements)
                 {
                     list.Add(new Client
                     {
@@ -175,10 +175,10 @@ namespace AbstractFoodDeliveryFileImplement
         }
         private void SaveOrders()
         {
-            if(Orders != null)
+            if (Orders != null)
             {
                 var xElement = new XElement("Orders");
-                foreach(var order in Orders)
+                foreach (var order in Orders)
                 {
                     xElement.Add(new XElement("Order",
                         new XAttribute("Id", order.Id),
@@ -222,10 +222,10 @@ namespace AbstractFoodDeliveryFileImplement
 
         private void SaveClients()
         {
-            if(Clients != null)
+            if (Clients != null)
             {
                 var xElement = new XElement("Clients");
-                foreach(var client in Clients)
+                foreach (var client in Clients)
                 {
                     xElement.Add(new XElement("Client",
                         new XAttribute("Id", client.Id),

@@ -28,7 +28,7 @@ namespace AbstractFoodDeliveryFileImplement.Implements
 
         public OrderViewModel GetElement(OrderBindingModel model)
         {
-            if(model == null)
+            if (model == null)
             {
                 return null;
             }
@@ -40,7 +40,7 @@ namespace AbstractFoodDeliveryFileImplement.Implements
 
         public List<OrderViewModel> GetFilteredList(OrderBindingModel model)
         {
-            if(model == null)
+            if (model == null)
             {
                 return null;
             }
@@ -65,14 +65,14 @@ namespace AbstractFoodDeliveryFileImplement.Implements
         public void Insert(OrderBindingModel model)
         {
             int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec => rec.Id) : 0;
-            var element = new Order{ Id = maxId + 1 };
+            var element = new Order { Id = maxId + 1 };
             source.Orders.Add(CreateModel(model, element));
         }
 
         public void Update(OrderBindingModel model)
         {
             var element = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
-            if(element == null)
+            if (element == null)
             {
                 throw new Exception("Элемент не найден");
             }

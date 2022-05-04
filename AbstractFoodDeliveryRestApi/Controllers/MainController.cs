@@ -33,5 +33,4 @@ namespace AbstractFoodDeliveryRestApi.Controllers
         public void CreateOrder(CreateOrderBindingModel model) => _order
             .CreateOrder(model);
     }
-
 }
