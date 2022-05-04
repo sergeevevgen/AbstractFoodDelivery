@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbstractFoodDeliveryDatabaseImplement.Migrations
 {
     [DbContext(typeof(AbstractFoodDeliveryDatabase))]
-    [Migration("20220420130023_InitialCreate")]
+    [Migration("20220504063136_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,6 +135,36 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
                     b.ToTable("Ingredients");
                 });
 
+            modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.MessageInfo", b =>
+                {
+                    b.Property<string>("MessageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateDelivery")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SenderName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("MessageInfos");
+                });
+
             modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -197,6 +227,15 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
                     b.Navigation("Ingredient");
                 });
 
+            modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.MessageInfo", b =>
+                {
+                    b.HasOne("AbstractFoodDeliveryDatabaseImplement.Models.Client", "Client")
+                        .WithMany("MessageInfos")
+                        .HasForeignKey("ClientId");
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.Order", b =>
                 {
                     b.HasOne("AbstractFoodDeliveryDatabaseImplement.Models.Client", "Client")
@@ -224,6 +263,8 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
 
             modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.Client", b =>
                 {
+                    b.Navigation("MessageInfos");
+
                     b.Navigation("Orders");
                 });
 

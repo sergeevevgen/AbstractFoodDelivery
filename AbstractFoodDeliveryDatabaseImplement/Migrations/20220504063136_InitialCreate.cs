@@ -67,6 +67,27 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MessageInfos",
+                columns: table => new
+                {
+                    MessageId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClientId = table.Column<int>(type: "int", nullable: true),
+                    SenderName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateDelivery = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MessageInfos", x => x.MessageId);
+                    table.ForeignKey(
+                        name: "FK_MessageInfos_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -141,6 +162,11 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
                 column: "IngredientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MessageInfos_ClientId",
+                table: "MessageInfos",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_ClientId",
                 table: "Orders",
                 column: "ClientId");
@@ -160,6 +186,9 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
         {
             migrationBuilder.DropTable(
                 name: "DishIngredients");
+
+            migrationBuilder.DropTable(
+                name: "MessageInfos");
 
             migrationBuilder.DropTable(
                 name: "Orders");
