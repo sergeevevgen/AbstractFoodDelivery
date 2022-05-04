@@ -33,23 +33,12 @@ namespace AbstractFoodDeliveryView
 
         private void buttonMake_Click(object sender, EventArgs e)
         {
-            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
-            {
-                MessageBox.Show("Дата начала должна быть меньше даты окончания", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
             try
             {
-                var dataSource = _logic.GetOrdersByDate(new ReportBindingModel
-                {
-                    DateFrom = dateTimePickerFrom.Value,
-                    DateTo = dateTimePickerTo.Value
-                });
+                var dataSource = _logic.GetOrdersByDate(null);
                 var source = new ReportDataSource("DataSetOrdersByDate", dataSource);
                 reportViewer.LocalReport.DataSources.Clear();
                 reportViewer.LocalReport.DataSources.Add(source);
-                var parameters = new[] { new ReportParameter("ReportParameterPeriod", "С " + dateTimePickerFrom.Value.ToShortDateString() + " по " + dateTimePickerTo.Value.ToShortDateString()) };
-                reportViewer.LocalReport.SetParameters(parameters);
                 reportViewer.RefreshReport();
             }
             catch (Exception ex)
@@ -60,11 +49,6 @@ namespace AbstractFoodDeliveryView
 
         private void buttonToPdf_Click(object sender, EventArgs e)
         {
-            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
-            {
-                MessageBox.Show("Дата начала должна быть меньше даты окончания", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
             using var dialog = new SaveFileDialog { Filter = "pdf|*.pdf" };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -72,9 +56,7 @@ namespace AbstractFoodDeliveryView
                 {
                     _logic.SaveOrdersByDateToPdfFile(new ReportBindingModel
                     {
-                        FileName = dialog.FileName,
-                        DateFrom = dateTimePickerFrom.Value,
-                        DateTo = dateTimePickerTo.Value
+                        FileName = dialog.FileName
                     });
                     MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

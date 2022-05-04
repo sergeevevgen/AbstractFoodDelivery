@@ -31,10 +31,6 @@
             this.panel = new System.Windows.Forms.Panel();
             this.buttonToPdf = new System.Windows.Forms.Button();
             this.buttonMake = new System.Windows.Forms.Button();
-            this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
-            this.labelTo = new System.Windows.Forms.Label();
-            this.labelFrom = new System.Windows.Forms.Label();
-            this.dateTimePickerFrom = new System.Windows.Forms.DateTimePicker();
             this.panel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,10 +38,6 @@
             // 
             this.panel.Controls.Add(this.buttonToPdf);
             this.panel.Controls.Add(this.buttonMake);
-            this.panel.Controls.Add(this.dateTimePickerTo);
-            this.panel.Controls.Add(this.labelTo);
-            this.panel.Controls.Add(this.labelFrom);
-            this.panel.Controls.Add(this.dateTimePickerFrom);
             this.panel.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel.Location = new System.Drawing.Point(0, 0);
             this.panel.Name = "panel";
@@ -72,38 +64,6 @@
             this.buttonMake.UseVisualStyleBackColor = true;
             this.buttonMake.Click += new System.EventHandler(this.buttonMake_Click);
             // 
-            // dateTimePickerTo
-            // 
-            this.dateTimePickerTo.Location = new System.Drawing.Point(266, 9);
-            this.dateTimePickerTo.Name = "dateTimePickerTo";
-            this.dateTimePickerTo.Size = new System.Drawing.Size(200, 23);
-            this.dateTimePickerTo.TabIndex = 2;
-            // 
-            // labelTo
-            // 
-            this.labelTo.AutoSize = true;
-            this.labelTo.Location = new System.Drawing.Point(239, 15);
-            this.labelTo.Name = "labelTo";
-            this.labelTo.Size = new System.Drawing.Size(21, 15);
-            this.labelTo.TabIndex = 2;
-            this.labelTo.Text = "по";
-            // 
-            // labelFrom
-            // 
-            this.labelFrom.AutoSize = true;
-            this.labelFrom.Location = new System.Drawing.Point(12, 15);
-            this.labelFrom.Name = "labelFrom";
-            this.labelFrom.Size = new System.Drawing.Size(15, 15);
-            this.labelFrom.TabIndex = 2;
-            this.labelFrom.Text = "С";
-            // 
-            // dateTimePickerFrom
-            // 
-            this.dateTimePickerFrom.Location = new System.Drawing.Point(33, 9);
-            this.dateTimePickerFrom.Name = "dateTimePickerFrom";
-            this.dateTimePickerFrom.Size = new System.Drawing.Size(200, 23);
-            this.dateTimePickerFrom.TabIndex = 0;
-            // 
             // FormReportOrdersByDate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -113,7 +73,6 @@
             this.Name = "FormReportOrdersByDate";
             this.Text = "Заказы";
             this.panel.ResumeLayout(false);
-            this.panel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -123,9 +82,5 @@
         private Panel panel;
         private Button buttonToPdf;
         private Button buttonMake;
-        private DateTimePicker dateTimePickerTo;
-        private Label labelTo;
-        private Label labelFrom;
-        private DateTimePicker dateTimePickerFrom;
     }
 }

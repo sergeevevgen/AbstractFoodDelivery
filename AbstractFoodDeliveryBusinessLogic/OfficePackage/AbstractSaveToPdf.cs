@@ -16,7 +16,7 @@ namespace AbstractFoodDeliveryBusinessLogic.OfficePackage
 
             CreateParagraph(new PdfParagraph
             {
-                Text = $"с{ info.DateFrom.ToShortDateString() } по { info.DateTo.ToShortDateString() }", 
+                Text = $"Заказы", 
                 Style = "Normal"
             });
 

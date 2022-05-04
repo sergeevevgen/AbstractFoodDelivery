@@ -161,11 +161,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
         public List<ReportOrdersByDateViewModel> GetOrdersByDate(ReportBindingModel model)
         {
             return _orderStorage
-                .GetFilteredList(new OrderBindingModel
-                {
-                    DateFrom = model.DateFrom,
-                    DateTo = model.DateTo
-                })
+                .GetFullList()
                 .GroupBy(rec => rec.DateCreate.ToShortDateString())
                 .Select(x => new ReportOrdersByDateViewModel
                 {
