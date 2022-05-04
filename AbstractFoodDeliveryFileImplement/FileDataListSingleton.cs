@@ -77,7 +77,7 @@ namespace AbstractFoodDeliveryFileImplement
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         DishId = Convert.ToInt32(elem.Element("DishId").Value),
                         ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
-                        ImplementerId = elem.Element("ImplementerId").IsEmpty ? null : Convert.ToInt32(elem.Element("ImplementerId").Value) ,
+                        ImplementerId = elem.Element("ImplementerId").IsEmpty ? null : Convert.ToInt32(elem.Element("ImplementerId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
                         Status = (OrderStatus) Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
