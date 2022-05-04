@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbstractFoodDeliveryDatabaseImplement.Migrations
 {
     [DbContext(typeof(AbstractFoodDeliveryDatabase))]
-    [Migration("20220418124245_InitialCreate")]
+    [Migration("20220504065041_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

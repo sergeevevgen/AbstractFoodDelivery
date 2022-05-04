@@ -77,8 +77,6 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
             using var transaction = context.Database.BeginTransaction();
             try
             {
-                //Сначала надо создать значение в таблице Dish,
-                //а уже потом добавлять внешние ключи в таблицу DishIngredient
                 WareHouse wareHouse = new WareHouse()
                 {
                     WareHouseName = model.WareHouseName,
