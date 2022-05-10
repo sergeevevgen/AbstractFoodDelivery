@@ -46,7 +46,8 @@ namespace AbstractFoodDeliveryFileImplement.Implements
             }
 
             return source.Orders
-                .Where(rec => rec.DishId.Equals(model.DishId))
+                .Where(rec => rec.Id.Equals(model.Id))
+                .ToList()
                 .Select(CreateModel)
                 .ToList();
         }
