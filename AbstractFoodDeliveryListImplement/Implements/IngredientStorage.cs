@@ -93,6 +93,7 @@ namespace AbstractFoodDeliveryListImplement.Implements
                 if (ingredient.Id == model.Id)
                 {
                     tempIngredient = ingredient;
+                    break;
                 }
             }
             if (tempIngredient == null)
