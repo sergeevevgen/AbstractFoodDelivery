@@ -9,6 +9,7 @@ using Unity.Lifetime;
 using AbstractFoodDeliveryBusinessLogic.MailWorker;
 using AbstractFoodDeliveryContracts.BindingModels;
 using System.Configuration;
+using AbstractFoodDeliveryContracts.Attributes;
 
 namespace AbstractFoodDeliveryView
 {
@@ -73,6 +74,8 @@ namespace AbstractFoodDeliveryView
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMessageInfoStorage, MessageInfoStorage>(new
             HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IBackUpInfo, BackUpInfo>(new
+            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IIngredientLogic, IngredientLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderLogic, OrderLogic>(new
@@ -89,6 +92,8 @@ namespace AbstractFoodDeliveryView
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMessageInfoLogic, MessageInfoLogic>(new
             HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IBackUpLogic, BackUpLogic>(new
+            HierarchicalLifetimeManager());
             currentContainer.RegisterType<AbstractSaveToExcel, SaveToExcel>(new 
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<AbstractSaveToWord, SaveToWord>(new 
@@ -101,5 +106,57 @@ namespace AbstractFoodDeliveryView
         }
         private static void MailCheck(object obj) =>
         Container.Resolve<AbstractMailWorker>().MailCheck();
+
+        public static void ConfigGrid<T>(List<T> data, DataGridView grid)
+        {
+            var type = typeof(T);
+            var config = new List<string>();
+            grid.Columns.Clear();
+            foreach (var prop in type.GetProperties())
+            {
+                // получаем список атрибутов
+                var attributes =
+                prop.GetCustomAttributes(typeof(ColumnAttribute), true);
+                if (attributes != null && attributes.Length > 0)
+                {
+                    foreach (var attr in attributes)
+                    {
+                        // ищем нужный нам атрибут
+                        if (attr is ColumnAttribute columnAttr)
+                        {
+                            config.Add(prop.Name);
+                            var column = new DataGridViewTextBoxColumn
+                            {
+                                Name = prop.Name,
+                                ReadOnly = true,
+                                HeaderText = columnAttr.Title,
+                                Visible = columnAttr.Visible,
+                                Width = columnAttr.Width
+                            };
+                            if (columnAttr.GridViewAutoSize !=
+                            GridViewAutoSize.None)
+                            {
+                                column.AutoSizeMode =
+                                (DataGridViewAutoSizeColumnMode)Enum.Parse(typeof(DataGridViewAutoSizeColumnMode),
+                                columnAttr.GridViewAutoSize.ToString());
+                            }
+                            grid.Columns.Add(column);
+                        }
+                    }
+                }
+            }
+            // добавляем строки
+            foreach (var elem in data)
+            {
+                var objs = new List<object>();
+                foreach (var conf in config)
+                {
+                    var value =
+                    elem.GetType().GetProperty(conf).GetValue(elem);
+                    objs.Add(value);
+                }
+                grid.Rows.Add(objs.ToArray());
+            }
+        }
     }
 }
