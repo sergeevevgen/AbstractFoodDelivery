@@ -8,7 +8,7 @@ namespace AbstractFoodDeliveryContracts.BindingModels
 {
     public class AddIngredientBindingModel
     {
-        public int WarehouseId { get; set; }
+        public int WareHouseId { get; set; }
         public int IngredientId { get; set; }
         public int Count { get; set; }
     }

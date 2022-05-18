@@ -30,7 +30,7 @@ namespace AbstractFoodDeliveryWarehouseApp.Controllers
                 return Redirect("~/Home/Enter");
             }
             return
-            View(APIClient.GetRequest<List<WareHouseViewModel>>($"api/Warehouse/GetWarehouseList"));
+            View(APIClient.GetRequest<List<WareHouseViewModel>>($"api/WareHouse/GetWareHouseList"));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -72,15 +72,15 @@ namespace AbstractFoodDeliveryWarehouseApp.Controllers
         }
 
         [HttpPost]
-        public void Create(string warehouseName, string storeKeeperFIO)
+        public void Create(string wareHouseName, string storeKeeperFIO)
         {
-            if (string.IsNullOrEmpty(warehouseName) || string.IsNullOrEmpty(storeKeeperFIO))
+            if (string.IsNullOrEmpty(wareHouseName) || string.IsNullOrEmpty(storeKeeperFIO))
             {
                 return;
             }
-            APIClient.PostRequest("api/Warehouse/CreateOrUpdateWarehouse", new WareHouseBindingModel
+            APIClient.PostRequest("api/WareHouse/CreateOrUpdateWareHouse", new WareHouseBindingModel
             {
-                WareHouseName = warehouseName,
+                WareHouseName = wareHouseName,
                 StorekeeperFIO = storeKeeperFIO,
                 DateCreate = DateTime.Now,
                 WareHouseIngredients = new Dictionary<int, (string, int)>()
@@ -95,17 +95,17 @@ namespace AbstractFoodDeliveryWarehouseApp.Controllers
             {
                 return Redirect("~/Home/Enter");
             }
-            ViewBag.Warehouses = APIClient.GetRequest<List<WareHouseViewModel>>("api/Warehouse/GetWarehouseList");
-            ViewBag.Conditions = APIClient.GetRequest<List<IngredientViewModel>>("api/Warehouse/GetIngredientsList");
+            ViewBag.WareHouses = APIClient.GetRequest<List<WareHouseViewModel>>("api/WareHouse/GetWareHouseList");
+            ViewBag.Ingredients = APIClient.GetRequest<List<IngredientViewModel>>("api/WareHouse/GetIngredientsList");
             return View();
         }
 
         [HttpPost]
-        public void AddIngredient(int warehouseId, int ingredientId, int count)
+        public void AddIngredient(int wareHouseId, int ingredientId, int count)
         {
-            APIClient.PostRequest("api/Warehouse/AddIngredientToWarehouse", new AddIngredientBindingModel
+            APIClient.PostRequest("api/WareHouse/AddIngredientToWareHouse", new AddIngredientBindingModel
             {
-                WarehouseId = warehouseId,
+                WareHouseId = wareHouseId,
                 IngredientId = ingredientId,
                 Count = count
             });
@@ -119,48 +119,51 @@ namespace AbstractFoodDeliveryWarehouseApp.Controllers
             {
                 return Redirect("~/Home/Enter");
             }
-            ViewBag.Warehouses = APIClient.GetRequest<List<WareHouseViewModel>>("api/Warehouse/GetWarehouseList");
+            ViewBag.WareHouses = APIClient.GetRequest<List<WareHouseViewModel>>("api/WareHouse/GetWareHouseList");
             return View();
         }
 
         [HttpPost]
-        public void Delete(int warehouseId)
+        public void Delete(int wareHouseId)
         {
-            APIClient.PostRequest("api/Warehouse/DeleteWarehouse", new WareHouseBindingModel
-            {
-                Id = warehouseId
+            APIClient.PostRequest("api/WareHouse/DeleteWareHouse", new WareHouseBindingModel 
+            { 
+                Id = wareHouseId,
+                WareHouseName = string.Empty,
+                StorekeeperFIO = string.Empty,
+                WareHouseIngredients = new Dictionary<int, (string, int)> { }
             });
             Response.Redirect("Index");
         }
 
         [HttpGet]
-        public IActionResult Privacy(int warehouseId)
+        public IActionResult Edit(int wareHouseId)
         {
             if (Program.Autorized == false)
             {
                 return Redirect("~/Home/Enter");
             }
-            WareHouseViewModel warehouse = APIClient.GetRequest<WareHouseViewModel>($"api/Warehouse/GetWarehouse?warehouseId={warehouseId}");
-            ViewBag.WareHouseName = warehouse.WareHouseName;
-            ViewBag.StoreKeeperFIO = warehouse.StorekeeperFIO;
-            ViewBag.WarehouseIngredients = warehouse.WareHouseIngredients.Values;
+            WareHouseViewModel wareHouse = APIClient.GetRequest<WareHouseViewModel>($"api/WareHouse/GetWareHouse?wareHouseId={wareHouseId}");
+            ViewBag.WareHouseName = wareHouse.WareHouseName;
+            ViewBag.StoreKeeperFIO = wareHouse.StorekeeperFIO;
+            ViewBag.WareHouseIngredients = wareHouse.WareHouseIngredients.Values;
             return View();
         }
 
         [HttpPost]
-        public void Privacy(int warehouseId, string warehouseName, string storeKeeperFIO)
+        public void Edit(int wareHouseId, string wareHouseName, string storeKeeperFIO)
         {
-            if (string.IsNullOrEmpty(warehouseName) || string.IsNullOrEmpty(storeKeeperFIO))
+            if (string.IsNullOrEmpty(wareHouseName) || string.IsNullOrEmpty(storeKeeperFIO))
             {
                 return;
             }
-            WareHouseViewModel warehouse = APIClient.GetRequest<WareHouseViewModel>($"api/Warehouse/GetWarehouse?warehouseId={warehouseId}");
-            APIClient.PostRequest("api/Warehouse/CreateOrUpdateWarehouse", new WareHouseBindingModel
+            WareHouseViewModel wareHouse = APIClient.GetRequest<WareHouseViewModel>($"api/WareHouse/GetWareHouse?wareHouseId={wareHouseId}");
+            APIClient.PostRequest("api/WareHouse/CreateOrUpdateWareHouse", new WareHouseBindingModel
             {
-                Id = warehouseId,
-                WareHouseName = warehouseName,
+                Id = wareHouseId,
+                WareHouseName = wareHouseName,
                 StorekeeperFIO = storeKeeperFIO,
-                WareHouseIngredients = warehouse.WareHouseIngredients,
+                WareHouseIngredients = wareHouse.WareHouseIngredients,
                 DateCreate = DateTime.Now
             });
             Response.Redirect("Index");

@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-8">Склад:</div>
         <div class="col-8">
-            <select id="warehouse" name="warehouse" class="form-control" asp-items="@(new SelectList(@ViewBag.Warehouses, "Id", "WareHouseName"))">
+            <select id="wareHouse" name="wareHouseId" class="form-control" asp-items="@(new SelectList(@ViewBag.WareHouses, "Id", "WareHouseName"))">
             </select>
         </div>
         <div class="row">

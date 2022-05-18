@@ -54,7 +54,7 @@
                             @Html.DisplayFor(modelItem => item.DateCreate)
                         </td>
                         <td>
-                            <a asp-action="Privacy" asp-route-warehouseId="@item.Id" asp-route-name="@item.WareHouseName" asp-route-storeKeeper="@item.StorekeeperFIO">Изменить</a>
+                            <a asp-action="Edit" asp-route-wareHouseId="@item.Id" asp-route-name="@item.WareHouseName" asp-route-storeKeeperFIO="@item.StorekeeperFIO">Изменить</a>
                         </td>
                     </tr>
                 }
