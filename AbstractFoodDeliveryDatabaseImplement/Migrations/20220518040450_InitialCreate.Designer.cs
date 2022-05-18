@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbstractFoodDeliveryDatabaseImplement.Migrations
 {
     [DbContext(typeof(AbstractFoodDeliveryDatabase))]
-    [Migration("20220417092130_InitialCreate")]
+    [Migration("20220518040450_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -150,6 +150,56 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.WareHouse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("StorekeeperFIO")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WareHouseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WareHouses");
+                });
+
+            modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.WareHouseIngredient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WareHouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IngredientId");
+
+                    b.HasIndex("WareHouseId");
+
+                    b.ToTable("WareHouseIngredients");
+                });
+
             modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.DishIngredient", b =>
                 {
                     b.HasOne("AbstractFoodDeliveryDatabaseImplement.Models.Dish", "Dish")
@@ -188,6 +238,25 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
                     b.Navigation("Dish");
                 });
 
+            modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.WareHouseIngredient", b =>
+                {
+                    b.HasOne("AbstractFoodDeliveryDatabaseImplement.Models.Ingredient", "Ingredient")
+                        .WithMany("WareHouseIngredients")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AbstractFoodDeliveryDatabaseImplement.Models.WareHouse", "WareHouse")
+                        .WithMany("WareHouseIngredients")
+                        .HasForeignKey("WareHouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ingredient");
+
+                    b.Navigation("WareHouse");
+                });
+
             modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.Client", b =>
                 {
                     b.Navigation("Orders");
@@ -203,6 +272,13 @@ namespace AbstractFoodDeliveryDatabaseImplement.Migrations
             modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.Ingredient", b =>
                 {
                     b.Navigation("DishIngredients");
+
+                    b.Navigation("WareHouseIngredients");
+                });
+
+            modelBuilder.Entity("AbstractFoodDeliveryDatabaseImplement.Models.WareHouse", b =>
+                {
+                    b.Navigation("WareHouseIngredients");
                 });
 #pragma warning restore 612, 618
         }

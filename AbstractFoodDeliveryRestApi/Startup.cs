@@ -25,9 +25,14 @@ namespace AbstractFoodDeliveryRestApi
             services.AddTransient<IClientStorage, ClientStorage>();
             services.AddTransient<IOrderStorage, OrderStorage>();
             services.AddTransient<IDishStorage, DishStorage>();
+            services.AddTransient<IIngredientStorage, IngredientStorage>();
+            services.AddTransient<IWareHouseStorage, WareHouseStorage>();
+
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<IDishLogic, DishLogic>();
+            services.AddTransient<IIngredientLogic, IngredientLogic>();
+            services.AddTransient<IWareHouseLogic, WareHouseLogic>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

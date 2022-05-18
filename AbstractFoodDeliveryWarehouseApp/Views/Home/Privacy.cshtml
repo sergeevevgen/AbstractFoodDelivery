@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Privacy";
+}
+
+<div class="text-center">
+    <h2 class="display-4">Изменение склада</h2>
+</div>
+<form method="post">
+    <div class="row">
+        <div class="col-4">Название:</div>
+        <div class="col-8"><input type="text" name="warehouseName" id="warehouseName" value="@ViewBag.WareHouseName" /></div>
+    </div>
+    <div class="row">
+        <div class="col-4">ФИО кладовщика:</div>
+        <div class="col-8"><input type="text" name="storeKeeperFIO" id="storeKeeperFIO" value="@ViewBag.StoreKeeperFIO" /></div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Ингредиент
+                </th>
+                <th>
+                    Количество
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.WareHouseIngredients)
+            {
+                <tr>
+                    <td>
+                        @item.Item1
+                    </td>
+                    <td>
+                        @item.Item2
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"><input type="submit" value="Сохранить" class="btn btn-primary" /></div>
+    </div>
+</form>
