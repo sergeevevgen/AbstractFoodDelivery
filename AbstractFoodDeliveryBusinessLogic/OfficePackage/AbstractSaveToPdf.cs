@@ -52,6 +52,51 @@ namespace AbstractFoodDeliveryBusinessLogic.OfficePackage
             SavePdf(info);
         }
 
+        public void CreateDocOrdersByDate(PdfInfo info)
+        {
+            CreatePdf(info);
+            CreateParagraph(new PdfParagraph
+            {
+                Text = info.Title,
+                Style = "NormalTitle"
+            });
+
+            CreateParagraph(new PdfParagraph
+            {
+                Text = "Заказы, отсортированные по датам",
+                Style = "Normal"
+            });
+
+            CreateTable(new List<string> { "5cm", "5cm", "5cm" });
+
+            CreateRow(new PdfRowParameters
+            {
+                Texts = new List<string>
+                {
+                    "Дата", "Количество",
+                    "Сумма"
+                },
+                Style = "NormalTitle",
+                ParagraphAlignment = PdfParagraphAlignmentType.Center
+            });
+
+            foreach (var order in info.OrdersByDate)
+            {
+                CreateRow(new PdfRowParameters
+                {
+                    Texts = new List<string>
+                    {
+                        order.DateCreate.ToShortDateString(),
+                        order.CountOrders.ToString(),
+                        order.TotalPrice.ToString()
+                    },
+                    Style = "Normal",
+                    ParagraphAlignment = PdfParagraphAlignmentType.Left
+                });
+            }
+            SavePdf(info);
+        }
+
         /// <summary>
         /// Cоздание doc-файла
         /// </summary>

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace AbstractFoodDeliveryRestApi
 {
@@ -25,10 +26,15 @@ namespace AbstractFoodDeliveryRestApi
             services.AddTransient<IClientStorage, ClientStorage>();
             services.AddTransient<IOrderStorage, OrderStorage>();
             services.AddTransient<IDishStorage, DishStorage>();
+            services.AddTransient<IIngredientStorage, IngredientStorage>();
+            services.AddTransient<IWareHouseStorage, WareHouseStorage>();
+
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<IDishLogic, DishLogic>();
-            services.AddControllers();
+            services.AddTransient<IIngredientLogic, IngredientLogic>();
+            services.AddTransient<IWareHouseLogic, WareHouseLogic>();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo

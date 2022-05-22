@@ -66,6 +66,66 @@ namespace AbstractFoodDeliveryBusinessLogic.OfficePackage
         }
 
         /// <summary>
+        /// Создание отчeта
+        /// </summary>
+        /// <param name="info"></param>
+        public void CreateReportWareHouses(ExcelInfo info)
+        {
+            CreateExcel(info);
+            InsertCellInWorksheet(new ExcelCellParameters
+            {
+                ColumnName = "A",
+                RowIndex = 1,
+                Text = info.Title,
+                StyleInfo = ExcelStyleInfoType.Title
+            });
+            MergeCells(new ExcelMergeParameters
+            {
+                CellFromName = "A1",
+                CellToName = "C1"
+            });
+            uint rowIndex = 2;
+            foreach (var wi in info.WareHouseIngredients)
+            {
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    ColumnName = "A",
+                    RowIndex = rowIndex,
+                    Text = wi.WareHouseName,
+                    StyleInfo = ExcelStyleInfoType.Text
+                });
+                rowIndex++;
+                foreach (var ingredient in wi.Ingredients)
+                {
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        ColumnName = "B",
+                        RowIndex = rowIndex,
+                        Text = ingredient.Item1,
+                        StyleInfo = ExcelStyleInfoType.TextWithBorder
+                    });
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        ColumnName = "C",
+                        RowIndex = rowIndex,
+                        Text = ingredient.Item2.ToString(),
+                        StyleInfo = ExcelStyleInfoType.TextWithBorder
+                    });
+                    rowIndex++;
+                }
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    ColumnName = "C",
+                    RowIndex = rowIndex,
+                    Text = wi.TotalCount.ToString(),
+                    StyleInfo = ExcelStyleInfoType.Text
+                });
+                rowIndex++;
+            }
+            SaveExcel(info);
+        }
+
+        /// <summary>
         /// Создание excel-файла
         /// </summary>
         /// <param name="info"></param>

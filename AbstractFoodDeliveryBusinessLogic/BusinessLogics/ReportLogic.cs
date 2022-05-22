@@ -13,17 +13,19 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
         private readonly IIngredientStorage _ingredientStorage;
         private readonly IDishStorage _dishStorage;
         private readonly IOrderStorage _orderStorage;
+        private readonly IWareHouseStorage _warehouseStorage;
         private readonly AbstractSaveToExcel _saveToExcel;
         private readonly AbstractSaveToWord _saveToWord;
         private readonly AbstractSaveToPdf _saveToPdf;
         public ReportLogic(IDishStorage dishStorage, IIngredientStorage
-        ingredientStorage, IOrderStorage orderStorage,
+        ingredientStorage, IOrderStorage orderStorage, IWareHouseStorage wareHouseStorage,
         AbstractSaveToExcel saveToExcel, AbstractSaveToWord saveToWord,
         AbstractSaveToPdf saveToPdf)
         {
             _dishStorage = dishStorage;
             _ingredientStorage = ingredientStorage;
             _orderStorage = orderStorage;
+            _warehouseStorage = wareHouseStorage;
             _saveToExcel = saveToExcel;
             _saveToWord = saveToWord;
             _saveToPdf = saveToPdf;
@@ -121,6 +123,94 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                 DateFrom = model.DateFrom.Value,
                 DateTo = model.DateTo.Value,
                 Orders = GetOrders(model)
+            });
+        }
+
+        /// <summary>
+        /// Получение списка складов с указанием, какие ингредиенты в них находятся
+        /// </summary>
+        /// <returns></returns>
+        public List<ReportWareHouseIngredientViewModel> GetWareHouseIngredient()
+        {
+            var warehouses = _warehouseStorage.GetFullList();
+            var list = new List<ReportWareHouseIngredientViewModel>();
+
+            foreach (var warehouse in warehouses)
+            {
+                var record = new ReportWareHouseIngredientViewModel
+                {
+                    WareHouseName = warehouse.WareHouseName,
+                    Ingredients = new List<Tuple<string, int>>(),
+                    TotalCount = 0
+                };
+                foreach (var ingredient in warehouse.WareHouseIngredients)
+                {
+                    record.Ingredients.Add(new Tuple<string, int>(ingredient.Value.Item1,
+                    ingredient.Value.Item2));
+                    record.TotalCount += ingredient.Value.Item2;
+                }
+                list.Add(record);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Сохранение заказов в файл-Pdf, отсортированных по датам
+        /// </summary>
+        /// <param name="model"></param>
+        public List<ReportOrdersByDateViewModel> GetOrdersByDate(ReportBindingModel model)
+        {
+            return _orderStorage
+                .GetFullList()
+                .GroupBy(rec => rec.DateCreate.ToShortDateString())
+                .Select(x => new ReportOrdersByDateViewModel
+                {
+                    DateCreate = Convert.ToDateTime(x.Key),
+                    CountOrders = x.Count(),
+                    TotalPrice = x.Sum(rec => rec.Sum)
+                })
+                .ToList();
+        }
+
+        /// <summary>
+        /// Сохранение блюд с указанием ингредиентов в файл-Excel
+        /// </summary>
+        /// <param name="model"></param>
+        public void SaveWareHouseIngredientsToExcelFile(ReportBindingModel model)
+        {
+            _saveToExcel.CreateReportWareHouses(new ExcelInfo
+            {
+                FileName = model.FileName,
+                Title = "Список хранилищ с ингредиентами",
+                WareHouseIngredients = GetWareHouseIngredient()
+            });
+        }
+
+        /// <summary>
+        /// Сохранение складов в файл-Word
+        /// </summary>
+        /// <param name="model"></param>
+        public void SaveWareHousesToWordFile(ReportBindingModel model)
+        {
+            _saveToWord.CreateDocWareHouses(new WordInfo
+            {
+                FileName = model.FileName,
+                Title = "Список складов",
+                WareHouses = _warehouseStorage.GetFullList()
+            });
+        }
+
+        /// <summary>
+        /// Сохранение заказов в файл-Pdf, отсортированных по датам
+        /// </summary>
+        /// <param name="model"></param>
+        public void SaveOrdersByDateToPdfFile(ReportBindingModel model)
+        {
+            _saveToPdf.CreateDocOrdersByDate(new PdfInfo
+            {
+                FileName = model.FileName,
+                Title = "Список заказов",
+                OrdersByDate = GetOrdersByDate(model)
             });
         }
     }

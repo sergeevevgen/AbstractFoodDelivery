@@ -10,6 +10,7 @@ namespace AbstractFoodDeliveryBusinessLogic.OfficePackage.Implements
     {
         private WordprocessingDocument _wordDocument;
         private Body _docBody;
+        private Table _table;
 
         /// <summary>
         /// Получение типа выравнивания
@@ -116,6 +117,54 @@ namespace AbstractFoodDeliveryBusinessLogic.OfficePackage.Implements
             _docBody.AppendChild(CreateSectionProperties());
             _wordDocument.MainDocumentPart.Document.Save();
             _wordDocument.Close();
+        }
+
+        protected override void CreateTable(WordParagraph paragraph)
+        {
+            if (paragraph != null)
+            {
+                _table = new Table();
+                var tableProp = new TableProperties();
+                tableProp.AppendChild(new TableLayout { Type = TableLayoutValues.Fixed });
+                tableProp.AppendChild(new TableBorders(
+                        new TopBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                        new LeftBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                        new RightBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                        new BottomBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                        new InsideHorizontalBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                        new InsideVerticalBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 }
+                    ));
+                _table.AppendChild(tableProp);
+                CreateRowInTable(paragraph);
+                _docBody.AppendChild(_table);
+            }
+        }
+
+        protected override void CreateRowInTable(WordParagraph paragraph)
+        {
+            TableRow tableRow = new TableRow();
+            foreach (var elem in paragraph.Texts)
+            {
+                TableCell tableCell = new TableCell();
+                TableCellProperties tableCellProperties = new TableCellProperties();
+                tableCellProperties.AppendChild(new TableCellWidth() { Width = "3333", Type = TableWidthUnitValues.Dxa });
+                tableCell.AppendChild(tableCellProperties);
+                Paragraph paragraph1 = new Paragraph(new ParagraphProperties(new Justification() { Val = GetJustificationValues(elem.Item2.JustificationType) }));
+                Run run = new Run();
+                RunProperties runProperties = new RunProperties();
+                runProperties.AppendChild(new FontSize { Val = elem.Item2.Size });
+                if (elem.Item2.Bold)
+                {
+                    runProperties.AppendChild(new Bold());
+                }
+                run.AppendChild(runProperties);
+                Text text = new Text(elem.Item1) { Space = SpaceProcessingModeValues.Preserve };
+                run.AppendChild(text);
+                paragraph1.AppendChild(run);
+                tableCell.AppendChild(paragraph1);
+                tableRow.AppendChild(tableCell);
+            }
+            _table.AppendChild(tableRow);
         }
     }
 }

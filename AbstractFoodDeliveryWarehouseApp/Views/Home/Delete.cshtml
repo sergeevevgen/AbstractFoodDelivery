@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="text-center">
+    <h2 class="display-4">Удаление склада</h2>
+</div>
+<form method="post">
+    <div class="row">
+        <div class="col-8">Склад:</div>
+        <div class="col-8">
+            <select id="wareHouse" name="wareHouseId" class="form-control" asp-items="@(new SelectList(@ViewBag.WareHouses, "Id", "WareHouseName"))">
+            </select>
+        </div>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-8">
+                <input type="submit" value="Удалить" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
