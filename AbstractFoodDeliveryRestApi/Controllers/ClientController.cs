@@ -33,5 +33,8 @@ namespace AbstractFoodDeliveryRestApi.Controllers
         [HttpPost]
         public void UpdateData(ClientBindingModel model) =>
         _logic.CreateOrUpdate(model);
+
+        [HttpGet]
+        public List<MessageInfoViewModel> GetClientsMessages(int clientid) => _messageLogic.Read(new MessageInfoBindingModel { ClientId = clientid });
     }
 }
