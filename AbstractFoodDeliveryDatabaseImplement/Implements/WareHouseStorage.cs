@@ -132,7 +132,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
                     }
                     if (countNeed > 0)
                     {
-                        throw new Exception("Недостаточно ингредиентов для блюда");
+                        return false;
                     }
                 }
                 context.SaveChanges();

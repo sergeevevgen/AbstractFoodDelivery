@@ -67,6 +67,33 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                 // отдыхаем
                 Thread.Sleep(implementer.PauseTime);
             }
+            //со статусом "требуются материалы"
+            // ищем заказы, которые уже в работе (вдруг исполнителя прервали)
+            var ingrOrders = await Task.Run(() => _orderLogic.Read(new OrderBindingModel
+                {
+                    ImplementerId = implementer.Id,
+                    Status = OrderStatus.Требуются_Материалы
+                }));
+            foreach (var order in ingrOrders)
+            {
+                _orderLogic.TakeOrderInWork(new ChangeStatusBindingModel 
+                { 
+                    OrderId = order.Id,
+                    ImplementerId = implementer.Id
+                });
+                var tempOrder = _orderLogic.Read(new OrderBindingModel { Id = order.Id })?[0];
+                if (tempOrder.Status == Enum.GetName(typeof(OrderStatus), 4))
+                {
+                    continue;
+                }
+                Thread.Sleep(implementer.WorkingTime * rnd.Next(1, 5) * order.Count);
+                _orderLogic.FinishOrder(new ChangeStatusBindingModel
+                {
+                    OrderId = order.Id,
+                    ImplementerId = implementer.Id
+                });
+                Thread.Sleep(implementer.PauseTime);
+            }
             await Task.Run(() =>
             {
                 while (!orders.IsEmpty)
@@ -74,17 +101,23 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                     if (orders.TryTake(out OrderViewModel order))
                     {
                         // пытаемся назначить заказ на исполнителя
-                        _orderLogic.TakeOrderInWork(
-                            new ChangeStatusBindingModel
-                            {
-                                OrderId = order.Id,
-                                ImplementerId = implementer.Id
-                            });
+                        _orderLogic.TakeOrderInWork(new ChangeStatusBindingModel
+                        {
+                            OrderId = order.Id,
+                            ImplementerId = implementer.Id
+                        });
+                        var tempOrder = _orderLogic.Read(new OrderBindingModel { Id = order.Id })?[0];
+                        if (tempOrder.Status == Enum.GetName(typeof(OrderStatus), 4))
+                        {
+                            continue;
+                        }
                         // делаем работу
                         Thread.Sleep(implementer.WorkingTime * rnd.Next(1, 5) * order.Count);
-                        _orderLogic.FinishOrder(
-                            new ChangeStatusBindingModel
-                            { OrderId = order.Id });
+                        _orderLogic.FinishOrder(new ChangeStatusBindingModel
+                        { 
+                            OrderId = order.Id,
+                            ImplementerId= implementer.Id
+                        });
                         // отдыхаем
                         Thread.Sleep(implementer.PauseTime);
                     }

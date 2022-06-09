@@ -17,6 +17,8 @@ namespace AbstractFoodDeliveryContracts.Enums
 
         Готов = 2,
 
-        Выдан = 3
+        Выдан = 3,
+
+        Требуются_Материалы = 4
     }
 }
