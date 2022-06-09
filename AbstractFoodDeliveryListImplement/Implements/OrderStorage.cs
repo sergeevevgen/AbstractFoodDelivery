@@ -146,7 +146,7 @@ namespace AbstractFoodDeliveryListImplement.Implements
             string implementerFIO = null;
             foreach (var implementer in source.Implementers)
             {
-                if (implementer.Id == order.ImplementerId)
+                if (implementer.Id == order.ImplementerId.Value)
                 {
                     implementerFIO = implementer.FIO;
                     break;
