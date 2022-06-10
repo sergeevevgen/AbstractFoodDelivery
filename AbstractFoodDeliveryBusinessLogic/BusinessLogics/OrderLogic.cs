@@ -69,7 +69,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
             {
                 throw new Exception("Заказ не в статусе \"Выполняется\"");
             }
-            if (order.Status != Enum.GetName(typeof(OrderStatus), 4))
+            if (order.Status == Enum.GetName(typeof(OrderStatus), 4))
             {
                 return;
             }
@@ -109,13 +109,9 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                 {
                     throw new Exception("Заказ не найден");
                 }
-                if (order.Status == Enum.GetName(typeof(OrderStatus), 4))
+                if (order.Status != Enum.GetName(typeof(OrderStatus), 0) && order.Status != Enum.GetName(typeof(OrderStatus), 4))
                 {
-                    return;
-                }
-                if (order.Status != Enum.GetName(typeof(OrderStatus), 0))
-                {
-                    throw new Exception("Заказ не в статусе \"Принят\"");
+                    throw new Exception("Заказ не в статусе \"Принят\" или \"Требуются материалы\"");
                 }
                 if (!_warehouseStorage.TakeIngredientsInWork(order.DishId, order.Count))
                 {
