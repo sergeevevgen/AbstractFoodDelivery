@@ -46,10 +46,11 @@ namespace AbstractFoodDeliveryFileImplement.Implements
             }
 
             return source.Orders
-                .Where(rec => rec.Id.Equals(model.Id) 
-                || rec.DateCreate >= model.DateFrom
-                && rec.DateCreate <= model.DateTo ||
-                model.ClientId.HasValue && rec.ClientId == model.ClientId)
+                .Where(rec => rec.Id.Equals(model.Id) || (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
+                (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
+                (model.SearchStatus.HasValue && model.SearchStatus.Value == rec.Status) ||
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && model.Status == rec.Status))
                 .Select(CreateModel)
                 .ToList();
         }
@@ -82,6 +83,7 @@ namespace AbstractFoodDeliveryFileImplement.Implements
         {
             order.DishId = model.DishId;
             order.ClientId = model.ClientId.Value;
+            order.ImplementerId = model.ImplementerId.Value;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -99,6 +101,8 @@ namespace AbstractFoodDeliveryFileImplement.Implements
                 ClientFIO = source.Clients.FirstOrDefault(rec => rec.Id == order.Id)?.ClientFIO,
                 DishId = order.DishId,
                 DishName = source.Dishes.FirstOrDefault(rec => rec.Id == order.DishId)?.DishName,
+                ImplementerId = order.ImplementerId.Value,
+                ImplementerFIO = order.ImplementerId.HasValue ? source.Implementers.FirstOrDefault(rec => rec.Id == order.ImplementerId)?.FIO : string.Empty,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status.ToString(),

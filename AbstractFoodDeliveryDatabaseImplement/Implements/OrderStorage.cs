@@ -39,6 +39,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
             var order = context.Orders
             .Include(rec => rec.Dish)
             .Include(rec => rec.Client)
+            .Include(rec => rec.Implementer)
             .FirstOrDefault(rec => rec.Id == model.Id);
             return order != null ? CreateModel(order) : null;
         }
@@ -53,9 +54,12 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
             return context.Orders
                 .Include(rec => rec.Dish)
                 .Include(rec => rec.Client)
-                .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date) ||
-            (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
-            (model.ClientId.HasValue && rec.ClientId == model.ClientId))
+                .Include(rec => rec.Implementer)
+                .Where(rec => rec.Id.Equals(model.Id) || (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
+                (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
+                (model.SearchStatus.HasValue && model.SearchStatus.Value == rec.Status) ||
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && model.Status == rec.Status))
                 .ToList()
                 .Select(CreateModel)
                 .ToList();
@@ -67,9 +71,22 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
             return context.Orders
                 .Include(rec => rec.Dish)
                 .Include(rec => rec.Client)
-                .ToList()
-                .Select(CreateModel)
-                .ToList();
+                .Include(rec => rec.Implementer)
+                .Select(rec => new OrderViewModel
+            {
+                Id = rec.Id,
+                DishId = rec.DishId,
+                ClientId = rec.ClientId,
+                ImplementerId = rec.ImplementerId,
+                ClientFIO = rec.Client.ClientFIO,
+                ImplementerFIO = rec.ImplementerId.HasValue ? rec.Implementer.FIO : string.Empty,
+                DishName = rec.Dish.DishName,
+                Count = rec.Count,
+                Sum = rec.Sum,
+                Status = rec.Status.ToString(),
+                DateCreate = rec.DateCreate,
+                DateImplement = rec.DateImplement
+            }).ToList();
         }
 
         public void Insert(OrderBindingModel model)
@@ -115,6 +132,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
         {
             order.DishId = model.DishId;
             order.ClientId = model.ClientId.Value;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -130,6 +148,8 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
                 Id = order.Id,
                 ClientId = order.ClientId,
                 ClientFIO = order.Client.ClientFIO,
+                ImplementerId = order.ImplementerId,
+                ImplementerFIO = order.ImplementerId.HasValue ? order.Implementer.FIO : string.Empty,
                 DishId = order.DishId,
                 DishName = order.Dish.DishName,
                 Count = order.Count,

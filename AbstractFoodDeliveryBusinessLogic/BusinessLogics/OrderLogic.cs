@@ -44,6 +44,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                 Id = order.Id,
                 ClientId = order.ClientId,
                 DishId = order.DishId,
+                ImplementerId = order.ImplementerId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -68,6 +69,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                 Id = order.Id,
                 ClientId = order.ClientId,
                 DishId = order.DishId,
+                ImplementerId = order.ImplementerId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -104,6 +106,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
             {
                 Id = order.Id,
                 ClientId = order.ClientId,
+                ImplementerId = model.ImplementerId,
                 DishId = order.DishId,
                 Count = order.Count,
                 Sum = order.Sum,
