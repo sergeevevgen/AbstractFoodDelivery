@@ -10,7 +10,10 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
     {
         private readonly IOrderStorage _orderStorage;
         private readonly IWareHouseStorage _warehouseStorage;
-
+        /// <summary>
+        /// Объект-заглушка
+        /// </summary>
+        private readonly object _locker = new object();
         public OrderLogic(IOrderStorage orderStorage, IWareHouseStorage wareHouseStorage)
         {
             _orderStorage = orderStorage;
@@ -46,6 +49,7 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
                 Id = order.Id,
                 ClientId = order.ClientId,
                 DishId = order.DishId,
+                ImplementerId = order.ImplementerId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -65,11 +69,16 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
             {
                 throw new Exception("Заказ не в статусе \"Выполняется\"");
             }
+            if (order.Status == Enum.GetName(typeof(OrderStatus), 4))
+            {
+                return;
+            }
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
                 ClientId = order.ClientId,
                 DishId = order.DishId,
+                ImplementerId = order.ImplementerId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -93,30 +102,47 @@ namespace AbstractFoodDeliveryBusinessLogic.BusinessLogics
 
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
-            var order = _orderStorage.GetElement(new OrderBindingModel { Id = model.OrderId });
-            if (order == null)
+            lock (_locker)
             {
-                throw new Exception("Заказ не найден");
+                var order = _orderStorage.GetElement(new OrderBindingModel { Id = model.OrderId });
+                if (order == null)
+                {
+                    throw new Exception("Заказ не найден");
+                }
+                if (order.Status != Enum.GetName(typeof(OrderStatus), 0) && order.Status != Enum.GetName(typeof(OrderStatus), 4))
+                {
+                    throw new Exception("Заказ не в статусе \"Принят\" или \"Требуются материалы\"");
+                }
+                if (!_warehouseStorage.TakeIngredientsInWork(order.DishId, order.Count))
+                {
+                    _orderStorage.Update(new OrderBindingModel
+                    {
+                        Id = order.Id,
+                        ClientId = order.ClientId,
+                        ImplementerId = model.ImplementerId,
+                        DishId = order.DishId,
+                        Count = order.Count,
+                        Sum = order.Sum,
+                        DateCreate = order.DateCreate,
+                        Status = OrderStatus.Требуются_Материалы
+                    });
+                }
+                else
+                {
+                    _orderStorage.Update(new OrderBindingModel
+                    {
+                        Id = order.Id,
+                        ClientId = order.ClientId,
+                        ImplementerId = model.ImplementerId,
+                        DishId = order.DishId,
+                        Count = order.Count,
+                        Sum = order.Sum,
+                        DateCreate = order.DateCreate,
+                        DateImplement = DateTime.Now,
+                        Status = OrderStatus.Выполняется
+                    });
+                }
             }
-            if (order.Status != Enum.GetName(typeof(OrderStatus), 0))
-            {
-                throw new Exception("Заказ не в статусе \"Принят\"");
-            }
-            if (!_warehouseStorage.TakeIngredientsInWork(order.DishId, order.Count))
-            {
-                throw new Exception("Недостаточно ингредиентов на складе");
-            }
-            _orderStorage.Update(new OrderBindingModel
-            {
-                Id = order.Id,
-                ClientId = order.ClientId,
-                DishId = order.DishId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                DateImplement = DateTime.Now,
-                Status = OrderStatus.Выполняется
-            });
         }
     }
 }

@@ -16,11 +16,13 @@ namespace AbstractFoodDeliveryFileImplement
         private readonly string DishFileName = "Dish.xml";
         private readonly string ClientFileName = "Client.xml";
         private readonly string WareHouseFileName = "WareHouse.xml";
+        private readonly string ImplementerFileName = "Implementer.xml";
         public List<Ingredient> Ingredients { get; set; }
         public List<Order> Orders { get; set; }
         public List<Dish> Dishes { get; set; }
         public List<Client> Clients { get; set; }
         public List<WareHouse> WareHouses { get; set; }
+        public List<Implementer> Implementers { get; set; }
         private FileDataListSingleton()
         {
             Ingredients = LoadIngredients();
@@ -28,6 +30,7 @@ namespace AbstractFoodDeliveryFileImplement
             Dishes = LoadDishes();
             Clients = LoadClients();
             WareHouses = LoadWareHouses();
+            Implementers = LoadImplementers();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -44,6 +47,7 @@ namespace AbstractFoodDeliveryFileImplement
             instance.SaveDishes();
             instance.SaveClients();
             instance.SaveWareHouses();
+            instance.SaveImplementers();
         }
         private List<Ingredient> LoadIngredients()
         {
@@ -66,22 +70,23 @@ namespace AbstractFoodDeliveryFileImplement
         private List<Order> LoadOrders()
         {
             var list = new List<Order>();
-            if(File.Exists(OrderFileName))
+            if (File.Exists(OrderFileName))
             {
                 var xDocument = XDocument.Load(OrderFileName);
                 var xElements = xDocument.Root.Elements("Order").ToList();
-                foreach(var elem in xElements)
+                foreach (var elem in xElements)
                 {
-                    bool dateimplement = elem.Element("DateImplement").IsEmpty;
                     list.Add(new Order
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         DishId = Convert.ToInt32(elem.Element("DishId").Value),
+                        ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
+                        ImplementerId = elem.Element("ImplementerId").IsEmpty ? null : Convert.ToInt32(elem.Element("ImplementerId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
-                        Status = (OrderStatus) Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
+                        Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
                         DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
-                        DateImplement = dateimplement ? null : Convert.ToDateTime(elem.Element("DateImplement").Value)
+                        DateImplement = elem.Element("DateImplement").IsEmpty ? null : Convert.ToDateTime(elem.Element("DateImplement").Value)
                     });
                 }
             }
@@ -165,6 +170,27 @@ namespace AbstractFoodDeliveryFileImplement
             return list;
         }
 
+        private List<Implementer> LoadImplementers()
+        {
+            var list = new List<Implementer>();
+            if (File.Exists(ImplementerFileName))
+            {
+                var xDocument = XDocument.Load(ImplementerFileName);
+                var xElements = xDocument.Root.Elements("Implementer").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Implementer
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        FIO = elem.Element("FIO").Value,
+                        PauseTime = Convert.ToInt32(elem.Element("PauseTime").Value),
+                        WorkingTime = Convert.ToInt32(elem.Element("WorkingTime").Value)
+                    });
+                }
+            }
+            return list;
+        }
+
         private void SaveIngredients()
         {
             if (Ingredients != null)
@@ -182,19 +208,21 @@ namespace AbstractFoodDeliveryFileImplement
         }
         private void SaveOrders()
         {
-            if(Orders != null)
+            if (Orders != null)
             {
                 var xElement = new XElement("Orders");
-                foreach(var order in Orders)
+                foreach (var order in Orders)
                 {
                     xElement.Add(new XElement("Order",
-                    new XAttribute("Id", order.Id),
-                    new XElement("DishId", order.DishId),
-                    new XElement("Count", order.Count),
-                    new XElement("Sum", order.Sum),
-                    new XElement("Status", order.Status),
-                    new XElement("DateCreate", order.DateCreate),
-                    new XElement("DateImplement", order.DateImplement)));
+                        new XAttribute("Id", order.Id),
+                        new XElement("DishId", order.DishId),
+                        new XElement("ClientId", order.ClientId),
+                        new XElement("ImplementerId", order.ImplementerId),
+                        new XElement("Count", order.Count),
+                        new XElement("Sum", order.Sum),
+                        new XElement("Status", order.Status),
+                        new XElement("DateCreate", order.DateCreate),
+                        new XElement("DateImplement", order.DateImplement)));
                 }
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(OrderFileName);
@@ -268,6 +296,22 @@ namespace AbstractFoodDeliveryFileImplement
                 xDocument.Save(WareHouseFileName);
             }
         }
+        private void SaveImplementers()
+        {
+            if (Implementers != null)
+            {
+                var xElement = new XElement("Implementers");
+                foreach (var implementer in Implementers)
+                {
+                    xElement.Add(new XElement("Implementer",
+                        new XAttribute("Id", implementer.Id),
+                        new XElement("FIO", implementer.FIO),
+                        new XElement("PauseTime", implementer.PauseTime),
+                        new XElement("WorkingTime", implementer.WorkingTime)));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(ImplementerFileName);
+            }
+        }
     }
-
 }
