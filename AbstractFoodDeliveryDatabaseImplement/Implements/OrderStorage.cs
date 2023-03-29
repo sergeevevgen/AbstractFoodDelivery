@@ -72,21 +72,7 @@ namespace AbstractFoodDeliveryDatabaseImplement.Implements
                 .Include(rec => rec.Dish)
                 .Include(rec => rec.Client)
                 .Include(rec => rec.Implementer)
-                .Select(rec => new OrderViewModel
-            {
-                Id = rec.Id,
-                DishId = rec.DishId,
-                ClientId = rec.ClientId,
-                ImplementerId = rec.ImplementerId,
-                ClientFIO = rec.Client.ClientFIO,
-                ImplementerFIO = rec.ImplementerId.HasValue ? rec.Implementer.FIO : string.Empty,
-                DishName = rec.Dish.DishName,
-                Count = rec.Count,
-                Sum = rec.Sum,
-                Status = rec.Status.ToString(),
-                DateCreate = rec.DateCreate,
-                DateImplement = rec.DateImplement
-            }).ToList();
+                .Select(CreateModel).ToList();
         }
 
         public void Insert(OrderBindingModel model)
