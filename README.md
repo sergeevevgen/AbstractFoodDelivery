@@ -1,2 +1,2 @@
-# PIbd-22-Sergeev-E.D.-AbstractFoodDelivery
+# AbstractFoodDelivery
 My Food Delivery Company
